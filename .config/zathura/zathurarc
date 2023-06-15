@@ -1,0 +1,10 @@
+include catppuccin-frappe
+set recolor true
+set selection-clipboard clipboard
+
+map u scroll half-up
+map d scroll half-down
+map D toggle_page_mode
+map i recolor
+map R rotate
+map r reload
