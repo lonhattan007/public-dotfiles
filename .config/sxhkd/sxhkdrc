@@ -1,0 +1,227 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+	kitty
+	# kitty --config $HOME/.config/kitty/kitty-catppuccin.conf
+
+ctrl + alt + t
+	gnome-terminal
+
+# program launcher
+#super + @space
+super + d
+	dmenu_run
+
+# Rofi launcher
+alt + d
+	$HOME/.config/polybar/catppuccin/scripts/launcher.sh
+
+# File explorer
+super + e
+	nemo
+
+# Browser
+super + w
+	microsoft-edge
+
+super + b
+	firefox
+
+# Settings
+super + i
+	cinnamon-settings
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + shift + r
+	bspc wm -r
+
+super + shift + e
+	$HOME/.config/polybar/catppuccin/scripts/powermenu.sh
+
+# close and kill
+super + shift + q
+	bspc node -c
+	#bspc node -{c,k} k kills all instance of some apps
+
+alt + F4
+	bspc node -c
+	#bspc node -{c,k} k kills all instance of some apps
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+# super + y
+# 	bspc node newest.marked.local -n newest.!automatic.local
+
+#
+# state/flags
+#
+
+# set the window state
+super + {shift + t,s,f}
+	bspc node -t {pseudo_tiled,floating,fullscreen}
+
+# make sure windows are tiled after quitting monocle for other states
+super + t
+	bspc desktop -l tiled; \
+	bspc node -t tiled
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous node in the current desktop
+super + {Left,Right}
+	bspc node -f {prev,next}.local
+
+# swap the current node and the biggest node
+super + Up
+	bspc node -s biggest.local
+
+# swap the current node and the last focused node
+super + Down
+	bspc node -s last.local
+
+# circulate windows in the current desktop
+super + bracket{left,right}
+	bspc node @/ -C {backward,forward}
+
+# rotate windows in the current desktop
+super + shift + bracket{left,right}
+	bspc node @/ -R {270,90}
+
+# rotate windows in the current desktop / mirroring
+super + {_,shift} + m
+	bspc node @/ -F {horizontal,vertical}
+
+# cycle through workspaces / focus the next/prev desktop in the current monitor
+super + Tab
+	bspc desktop -f next.occupied.local
+
+super + shift + Tab
+	bspc desktop -f prev.occupied.local
+
+# cycle apps in monocle/fullscreen mode
+# ctrl + alt + {_,shift} + Tab
+	# bspc node -f {next,prev}.local; \
+	# bspc node -t fullscreen
+
+alt + {_,shift} + Tab
+	bspc node -f {next,prev}.local; \
+	bspc desktop -l monocle
+
+# focus the older or newer node in the focus history
+# super + {o,i}
+# 	bspc wm -h off; \
+# 	bspc node {older,newer} -f; \
+# 	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# for ergonomic experience
+super + alt + {_,shift + }{1-4}
+	bspc {desktop -f,node -d} '^{5-8}'
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + 0
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + 0
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+## move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# balance children's sizes of a node
+super + alt + b
+	bspc node -f -B
+
+# reset split ratio inside a node
+super + alt + e
+	bspc node -f -E
+
+#
+# Audio and light control
+#
+
+XF86AudioRaiseVolume
+	amixer -q -D pulse sset Master 2%+
+
+XF86AudioLowerVolume
+	amixer -q -D pulse sset Master 2%-
+
+XF86AudioMute
+	amixer -q -D pulse sset Master toggle
+
+XF86AudioMicMute
+	pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+XF86MonBrightnessUp
+	light -A 5
+
+XF86MonBrightnessDown
+	light -U 5
+
+XF86Calculator
+	gnome-calculator
+
+Print
+	gnome-screenshot
+
+shift + Print
+	gnome-screenshot -a
+
+super + shift + s
+	gnome-screenshot -i
