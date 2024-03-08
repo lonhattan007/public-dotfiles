@@ -11,7 +11,7 @@ tokyo_night.setup({
     style = "storm",
     light_style = "day",
     transparent = vim.g.transparent_enabled,
-    terminal_colors = true,
+    terminal_colors = false,
     styles = {
         comments = { italic = true },
         keywords = { italic = true },

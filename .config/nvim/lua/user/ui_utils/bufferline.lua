@@ -31,12 +31,12 @@ bufferline.setup({
 })
 
 -- Bufferline icon background
-vim.api.nvim_create_autocmd({ "BufEnter, BufNewRead" }, {
-    pattern = "*",
-    command = "highlight BufferLineDevIconLua guibg=NONE",
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter, BufNewRead" }, {
-    pattern = "*",
-    command = "highlight BufferLineDevIconLuaSelected guibg=NONE",
-})
+-- vim.api.nvim_create_autocmd({ "BufEnter, BufNewRead" }, {
+--     pattern = "*",
+--     command = "highlight BufferLineDevIconLua guibg=NONE",
+-- })
+--
+-- vim.api.nvim_create_autocmd({ "BufEnter, BufNewRead" }, {
+--     pattern = "*",
+--     command = "highlight BufferLineDevIconLuaSelected guibg=NONE",
+-- })

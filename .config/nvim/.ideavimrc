@@ -1,0 +1,109 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+"" Some plugins
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'preservim/nerdtree'
+
+let mapleader = "\\"
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=4
+
+"" Do incremental searching.
+set incsearch
+"" Map for turning off search highlights
+" map <leader>n :nohl<CR>
+
+"" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+set rnu
+
+map <C-d> <C-d>zz
+map <C-u> <C-u>zz
+map <C-b> <C-b>zz
+map <C-f> <C-f>zz
+map <A-j> <C-d>zz
+map <A-k> <C-u>zz
+map <A-l> <C-b>zz
+map <A-h> <C-f>zz
+
+map <space>s <C-w>s
+map <space>x <C-w>s
+map <space>v <C-w>v
+map <space>h <C-w>h
+map <space>j <C-w>j
+map <space>k <C-w>k
+map <space>l <C-w>l
+map <space>H <C-w>H
+map <space>J <C-w>J
+map <space>K <C-w>K
+map <space>L <C-w>L
+
+nmap <Up> :echo 'Use K!'<CR>
+nmap <Down> :echo 'Use J!'<CR>
+nmap <Left> :echo 'Use H!'<CR>
+nmap <Right> :echo 'Use L!'<CR>
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map <leader>i to the Reformat Code action
+map <leader>i <Action>(ReformatCode)
+
+"" Map <leader>` to focus/open terminal
+map <leader>` <Action>(ActivateTerminalToolWindow)
+
+"" Map <leader>d to start debug
+map <leader>db <Action>(Debug)
+
+"" Map <leader>e to focus/open folder tree
+map <leader>e <Action>(ActivateProjectToolWindow)
+
+"" Map \b to toggle the breakpoint on the current line
+" map \b <Action>(ToggleLineBreakpoint)
+
+"" Map Ctrl + / to comment
+map <C-/> <Action>(CommentByLineComment)
+imap <C-/> <Action>(CommentByLineComment)
+
+"" Map Goto actions
+map gd <Action>(GotoTypeDeclaration)
+map gi <Action>(GotoImplementation)
+map gr <Action>(GotoDeclaration)
+
+"" Map Code action
+map <leader>ca <Action>(ShowContextActions)
+
+map <leader>r <Action>(RenameElement)
+
+imap <Tab> <Action>(SelectNextCompletionOption)
+imap <S-Tab> <Action>(SelectPreviousCompletionOption)
+
+"" Map splits
+nnoremap <space>v :vsplit<CR>
+nnoremap <space>s :split<CR>
+nnoremap <space>h <C-W>h
+nnoremap <space>j <C-W>j
+nnoremap <space>k <C-W>k
+nnoremap <space>l <C-W>l
+
+"" NERDTree
+map <leader>e :NERDTreeToggle<CR>
+
+"" Map \z to toggle zen mode
+map <leader>z <Action>(ToggleZenMode)
+
+"" Map <C-c> to handle copy action in normal and visual mode
+sethandler <C-c> n-v:ide i:vim
+
+"" Map <C-v> to handle paste action in insert mode
+sethandler <C-v> n-v:vim i:ide
+
+"" Map \so to reload .ideavimrc
+map <leader>so :source ~/.ideavimrc<CR>
+
+" Find more examples here: https://jb.gg/share-ideavimrc
+

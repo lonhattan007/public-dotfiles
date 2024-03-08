@@ -8,11 +8,11 @@ if not catppuccin_status_ok then
 end
 
 catppuccin.setup({
-    flavour = "frappe", -- latte, frappe, macchiate, mocha
+    flavour = "mocha", -- latte, frappe, macchiate, mocha
     background = {
         -- h: background
         light = "latte",
-        dark = "frappe",
+        dark = "mocha",
     },
     dim_inactive = {
         enabled = false,

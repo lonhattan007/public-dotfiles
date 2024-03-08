@@ -2,88 +2,147 @@
 -- NeoVim config module for syntax highlighting
 -----------------------------------------------------------------------
 
-local treesitter_status_ok, treesitter =
-    pcall(require, "nvim-treesitter.configs")
+local treesitter_status_ok, treesitter = pcall(require, "nvim-treesitter.configs")
 if not treesitter_status_ok then
-    return
+	return
 end
 
 local lang_lst = {
-    -- My fav -----------
-    "python",
-    "go",
-    "gomod",
-    "dart",
-    -- Docs and configs -
-    "json",
-    "yaml",
-    "dockerfile",
-    "bash",
-    "markdown",
-    "latex",
-    "org",
-    "toml",
-    "hcl",
-    "make",
-    "vim",
-    "vimdoc",
-    "regex",
-    -- Front-end --------
-    "html",
-    "css",
-    "scss",
-    "javascript",
-    "typescript",
-    "tsx",
-    "vue",
-    "svelte",
-    -- Android ----------
-    "kotlin",
-    "java",
-    -- Back-end ---------
-    "prisma",
-    "graphql",
-    "http",
-    "sql",
-    -- Others -----------
-    "lua",
-    "rust",
-    "r",
-    "solidity",
-    "c",
-    "cpp",
-    "c_sharp",
-    "cuda",
-    "php",
+	-- My fav -----------
+	"python",
+	"go",
+	"gomod",
+	"dart",
+	-- Docs and configs -
+	"json",
+	"yaml",
+	"dockerfile",
+	"bash",
+	"markdown",
+	"mermaid",
+	"latex",
+	"org",
+	"toml",
+	"ron",
+	"yuck",
+	"hcl",
+	"make",
+	"vim",
+	"vimdoc",
+	"regex",
+	"nix",
+	-- Front-end --------
+	"html",
+	"css",
+	"scss",
+	-- "javascript",
+	"typescript",
+	"tsx",
+	"vue",
+	"svelte",
+	-- Android ----------
+	"kotlin",
+	"java",
+	-- Back-end ---------
+	"prisma",
+	"graphql",
+	"http",
+	"sql",
+	-- Others -----------
+	"lua",
+	"rust",
+	"r",
+	"solidity",
+	"c",
+	"cpp",
+	"c_sharp",
+	"cuda",
+	"php",
 }
 
 treesitter.setup({
-    ensure_installed = lang_lst,
-    highlight = {
-        enable = true,
-    },
-    rainbow = {
-        enable = true,
-    },
-    indent = {
-        enable = true,
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
-        },
-    },
+	ensure_installed = lang_lst,
+	highlight = {
+		enable = true,
+	},
+	autotag = {
+		enable = true,
+	},
+	rainbow = {
+		enable = true,
+	},
+	indent = {
+		enable = true,
+	},
+	context_commentstring = {
+		enable = true,
+		enable_autocmd = false,
+	},
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "<C-space>",
+			node_incremental = "<C-space>",
+			scope_incremental = "<C-S-space>",
+			node_decremental = "<C-BS>",
+		},
+	},
+	textobjects = {
+		select = {
+			enable = true,
+			lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+			keymaps = {
+				-- You can use the capture groups defined in textobjects.scm
+				["aa"] = "@parameter.outer",
+				["ia"] = "@parameter.inner",
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+				["ac"] = "@class.outer",
+				["ic"] = "@class.inner",
+			},
+		},
+		move = {
+			enable = true,
+			set_jumps = true, -- whether to set jumps in the jumplist
+			goto_next_start = {
+				["]f"] = "@function.outer",
+				["]c"] = "@class.outer",
+			},
+			goto_next_end = {
+				["]F"] = "@function.outer",
+				["]C"] = "@class.outer",
+			},
+			goto_previrous_start = {
+				["[f"] = "@function.outer",
+				["[c"] = "@class.outer",
+			},
+			goto_previrous_end = {
+				["[F"] = "@function.outer",
+				["[C"] = "class.outer",
+			},
+		},
+		swap = {
+			enable = true,
+			swap_next = {
+				["<leader>a"] = "@parameter.inner",
+			},
+			swap_previous = {
+				["<leader>A"] = "@parameter.inner",
+			},
+		},
+	},
 })
 
 -- Folding
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "FileReadPost" }, {
-    pattern = { "*" },
-    command = "normal zR",
+	pattern = { "*" },
+	command = "normal zR",
 })
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
+
+-- JS
+vim.treesitter.language.register("typescript", "javascript")
+vim.treesitter.language.register("tsx", "javascript.jsx")
+vim.treesitter.language.register("tsx", "javascriptreact")

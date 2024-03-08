@@ -8,6 +8,10 @@ local color_cache_path = vim.fn.stdpath("data")
     .. package.config:sub(1, 1)
     .. "colorscheme_cache"
 
+local tmuxline_cache_path = vim.fn.stdpath("data")
+    .. package.config:sub(1, 1)
+    .. "tmuxline_cache"
+
 -- Available options
 --	nightfox	duskfox				carbonfox
 --	dayfox		dawnfox				terrafox
@@ -18,7 +22,7 @@ local color_cache_path = vim.fn.stdpath("data")
 --	kanagawa-wave
 --	tokyonight	tokyonight-night	tokyonight-storm
 --	tokyonight-moon					tokeyonight-day
---	onedark
+--	onedark		everforest
 --	rose-pine	rose-pine-moon		rose-pine-dawn
 local default_colorscheme = "catppuccin"
 
@@ -34,6 +38,17 @@ M.load_colorscheme = function()
     end
 
     vim.cmd("colorscheme " .. colorscheme)
+end
+
+M.update_tmuxline = function(colorscheme)
+    if os.getenv("TMUX") then
+        if string.sub(colorscheme, 1, 10) == "catppuccin" then
+            vim.cmd("Tmuxline jellybeans")
+        else
+            vim.cmd("Tmuxline")
+        end
+        vim.cmd("TmuxlineSnapshot! " .. tmuxline_cache_path)
+    end
 end
 
 return M

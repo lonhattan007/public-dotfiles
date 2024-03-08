@@ -2,254 +2,223 @@
 -- NeoVim config module for key bindings
 -----------------------------------------------------------------------
 
-local cmd = vim.cmd
-local wk = require("which-key")
-
-vim.g.mapleader = "\\"
-
--- Which-key registered section
-
--- Scrolling
-wk.register({
-    ["<C-d>"] = { "<C-d>zz", "Scroll half page down" },
-    ["<C-u>"] = { "<C-u>zz", "Scroll half page up" },
-    ["<leader>j"] = { "<C-d>zz", "Scroll half page down" },
-    ["<leader>k"] = { "<C-u>zz", "Scroll half page up" },
-}, {
-    mode = "n",
-    silent = true,
-    noremap = true,
-})
-
--- Copy and cut selections
-wk.register({
-    ["<C-c>"] = { '"+y', "Copy selected text" },
-    ["<C-x>"] = { '"+x', "Cut selected text" },
-}, {
-    mode = "v",
-    silent = true,
-    noremap = true,
-})
-
--- Moving between buffers
-wk.register({
-    -- This is actually Tab
-    ["<C-i>"] = { ":bn<CR>", "Move to next buffer" },
-    -- And this is actually Shift + Tab
-    ["<S-Tab>"] = { ":bp<CR>", "Move to previous buffer" },
-}, {
-    mode = "n",
-    silent = true,
-    noremap = true,
-})
-
--- Move lines upwards and downwards
-wk.register({
-    ["<S-j>"] = { ":m '>+1<CR>gv=gv", "Move selection downward" },
-    ["<S-k>"] = { ":m '<-2<CR>gv=gv", "Move selection upward" },
-    ["<A-Down>"] = { ":m '>+1<CR>gv=gv", "Move selection downward" },
-    ["<A-Up>"] = { ":m '<-2<CR>gv=gv", "Move selection upward" },
-}, {
-    mode = "v",
-    silent = true,
-    noremap = true,
-})
-
--- Lock arrow keys in normal and visual mode
-wk.register({
-    ["<Left>"] = { "<cmd>echo 'Use H!'<CR>", "" },
-    ["<Down>"] = { "<cmd>echo 'Use J!'<CR>", "" },
-    ["<Up>"] = { "<cmd>echo 'Use K!'<CR>", "" },
-    ["<Right>"] = { "<cmd>echo 'Use L!'<CR>", "" },
-}, {
-    mode = { "n", "v" },
-    noremap = true,
-})
-
--- Disable recording
-wk.register({
-    ["q"] = { "<Esc>", "" },
-    ["Q"] = { "<Nop>", "" },
-}, {
-    mode = { "n", "v" },
-    silent = true,
-    noremap = true,
-})
+local wk_status_ok, wk = pcall(require, "which-key")
+if not wk_status_ok then
+	return
+end
 
 -- Leader prefix
 wk.register({
-    ["<leader>"] = {
-        ["b"] = { "<cmd>Telescope file_browser<CR>", "Telescope file browser" },
-        ["d"] = { "<cmd>Alpha<CR>", "Dashboard" },
-        ["h"] = { "<cmd>nohl<CR>", "Turn off search highlights" },
-        ["l"] = { "<cmd>Twilight<CR>", "Focus code dimming" },
-        ["m"] = { "<cmd>TroubleToggle<CR>", "Toggle problems list" },
-        ["o"] = { "<cmd>AerialToggle! right<CR>", "Toggle outline tree" },
-        ["p"] = { "<cmd>Telescope buffers<CR>", "Telescope find open buffers" },
-        ["q"] = {
-            "<cmd>bp<bar>sp<bar>bn<bar>bd<bar>Alpha<CR>",
-            "Toggle outline tree",
-        },
-        ["u"] = { "<cmd>Telescope undo<CR>", "Telescope undo" },
-        ["v"] = { "<Plug>MarkdownPreviewToggle", "Toggle markdown preview" },
-        -- ["w"] = { "<cmd>W<CR>", "Turn on which-key manual" },
-        ["w"] = { "<cmd>bw<CR>", "Close buffer" },
-        -- ["x"] = { "<cmd>TransparentToggle<CR>", "Toggle transparency" },
-        ["z"] = { "<cmd>ZenMode<CR>", "Toggle zen mode" },
-    },
+	["<leader>"] = {
+		["b"] = { "<cmd>Telescope file_browser<CR>", "Telescope file browser" },
+		["ch"] = { "<cmd>lua require('obsidian').util.toggle_checkbox()<CR>", "Toggle markdown checkbox" },
+		["l"] = { "<cmd>Twilight<CR>", "Focus code dimming" },
+		["m"] = { "<cmd>TroubleToggle<CR>", "Toggle problems list" },
+		-- ["o"] = { "<cmd>AerialToggle! right<CR>", "Toggle outline tree" },
+		["p"] = { "<cmd>Telescope buffers<CR>", "Telescope find open buffers" },
+		-- ["u"] = { "<cmd>Telescope undo<CR>", "Telescope undo" },
+		["v"] = { "<cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
+		["wk"] = { "<cmd>W<CR>", "Turn on which-key manual" },
+		-- ["<space>w"] = { "<cmd>bw<CR>", "Close buffer" },
+		-- ["x"] = { "<cmd>TransparentToggle<CR>", "Toggle transparency" },
+		["z"] = { "<cmd>ZenMode<CR>", "Toggle zen mode" },
+	},
 })
 
 -- NvimTree
 wk.register({
-    ["<leader>e"] = { "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree" },
+	["<leader>e"] = { "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree" },
 }, {
-    mode = { "n", "v" },
-    silent = true,
-    noremap = true,
+	mode = { "n", "v" },
+	silent = true,
+	noremap = true,
 })
 
 wk.register({
-    ["<C-e>"] = { "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree" },
+	["<A-1>"] = { "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree" },
 }, {
-    mode = { "i" },
-    silent = true,
-    noremap = true,
+	mode = { "n", "v", "i" },
+	silent = true,
+	noremap = true,
 })
 
 -- Floating terminal
 wk.register({
-    ["<leader>`"] = { "<cmd>ToggleTerm<CR>", "Toggle terminal" },
+	["<leader>`"] = { "<cmd>ToggleTerm<CR>", "Toggle terminal" },
 }, {
-    mode = { "n", "v", "t" },
-    silent = true,
-    noremap = true,
+	mode = { "n", "v", "t" },
+	silent = true,
+	noremap = true,
 })
 
 -- Telescope and its extensions
 wk.register({
-    -- Flutter
-    ["f"] = {
-        name = "Flutter commands",
-        ["c"] = {
-            "<cmd>Telescope flutter commands<CR>",
-            "Telescope flutter commands",
-        },
-        ["d"] = { "<cmd>FlutterDevices<CR>", "Choose Flutter device" },
-        ["e"] = { "<cmd>FlutterEmulators<CR>", "Choose Flutter emulator" },
-        ["o"] = {
-            "<cmd>FlutterOutlineToggle<CR>",
-            "Toggle Flutter widgets outline pane",
-        },
-    },
-    -- Telescope utils
-    ["t"] = {
-        name = "Telescope utils",
-        ["a"] = { "<cmd>Telescope aerial<CR>", "Telescope outline tree" },
-        ["b"] = { "<cmd>Telescope buffers<CR>", "Telescope find open buffers" },
-        ["c"] = { "<cmd>Telescope colorscheme<CR>", "Telescope colorscheme" },
-        ["d"] = { "<cmd>Telescope diagnostics<CR>", "Telescope diagnostics" },
-        ["f"] = { "<cmd>Telescope find_files<CR>", "Telescope find files" },
-        ["h"] = { "<cmd>Telescope help_tags<CR>", "Vim manuals" },
-        ["k"] = { "<cmd>Telescope keymaps<CR>", "Keymaps" },
-        ["l"] = { "<cmd>Telescope<CR>", "Telescope builtins" },
-        ["o"] = { "<cmd>Telescope aerial<CR>", "Telescope outline" },
-        ["p"] = { "<cmd>Telescope projects<CR>", "Telescope projects" },
-        ["u"] = { "<cmd>Telescope undo<CR>", "Telescope undo" },
-        ["z"] = {
-            "<cmd>Telescope current_buffer_fuzzy_find<CR>",
-            "Telescope fuzzy find",
-        },
-    },
+	-- Flutter
+	["f"] = {
+		name = "Flutter commands",
+		["c"] = {
+			"<cmd>Telescope flutter commands<CR>",
+			"[F]lutter [C]ommands",
+		},
+		["d"] = { "<cmd>FlutterDevices<CR>", "Choose [F]lutter [D]evice" },
+		["e"] = { "<cmd>FlutterEmulators<CR>", "Choose [F]lutter [E]mulator" },
+		["o"] = {
+			"<cmd>FlutterOutlineToggle<CR>",
+			"Toggle [F]lutter [O]utline",
+		},
+	},
+	-- Telescope utils
+	["s"] = {
+		name = "Telescope search utils",
+		["b"] = { "<cmd>Telescope buffers<CR>", "[S]earch [B]uffers" },
+		["c"] = { "<cmd>Telescope colorscheme<CR>", "[S]earch [C]olorscheme" },
+		["d"] = { "<cmd>Telescope diagnostics<CR>", "[S]earch [D]iagnostics" },
+		["f"] = { "<cmd>Telescope find_files<CR>", "[S]earch [F]iles" },
+		["g"] = { "<cmd>Telescope live_grep<CR>", "[S]earch with [G]rep" },
+		["h"] = { "<cmd>Telescope help_tags<CR>", "[S]earch [H]elps" },
+		["k"] = { "<cmd>Telescope keymaps<CR>", "[S]earch [K]eymaps" },
+		["o"] = { "<cmd>Telescope aerial<CR>", "[S]earch [O]utline" },
+		["p"] = { "<cmd>Telescope projects<CR>", "[S]earch [P]rojects" },
+		["t"] = { "<cmd>TodoTelescope<CR>", "[S]earch [T]o[d]os" },
+		["u"] = { "<cmd>Telescope undo<CR>", "[S]earch [U]ndos" },
+		["w"] = { "<cmd>Telescope grep_string<CR>", "[S]earch current [W]ord" },
+		["z"] = { "<cmd>Telescope current_buffer_fuzzy_find<CR>", "[S]earch with fu[Z]zy" },
+	},
+	["t"] = {
+		name = "Telescope other utils",
+		["l"] = { "<cmd>Telescope<CR>", "[T]e[l]escope builtin pickers" },
+		["p"] = { "<cmd>Telescope planets<CR>", "[T]elescope view [P]lanets" },
+	},
 }, { prefix = "<leader>" })
 
--- Panes and Tmux motion integration
+-- Obsidian actions
 wk.register({
-    ["s"] = {
-        name = "Working with panes",
-        ["s"] = { "<cmd>split<CR>", "Split horizontally" },
-        ["v"] = { "<cmd>vsplit<CR>", "Split vertically" },
-        ["h"] = { "<cmd>TmuxNavigateLeft<CR>", "Focus on left pane" },
-        ["j"] = { "<cmd>TmuxNavigateDown<CR>", "Focus on upper pane" },
-        ["k"] = { "<cmd>TmuxNavigateUp<CR>", "Focus on right pane" },
-        ["l"] = { "<cmd>TmuxNavigateRight<CR>", "Focus on lower pane" },
-        ["H"] = { "<C-w>H<Esc>", "Move the focused pane to the far left" },
-        ["J"] = { "<C-w>J<Esc>", "Move the focused pane the far bottom" },
-        ["K"] = { "<C-w>K<Esc>", "Move the focused pane to the far top" },
-        ["L"] = { "<C-w>L<Esc>", "Move the focused pane to the far right" },
-        ["T"] = { "<C-w>T<Esc>", "Move the focused pane to a new tab" },
-        ["<Up>"] = { "<C-w>+<CR>", "Vertically increase the focused pane size" },
-        ["<Down>"] = {
-            "<C-w>-<CR>",
-            "Vertically decrease the focused pane size",
-        },
-        ["<Left>"] = {
-            "<C-w><<CR>",
-            "Horizontally decrease the focused pane size",
-        },
-        ["<Right>"] = {
-            "<C-w>><CR>",
-            "Horizontally increase the focused pane size",
-        },
-        ["="] = { "<C-w>=<CR>", "Equalize split sizes" },
-    },
-    ["<C-h>"] = { "<cmd>TmuxNavigateLeft<CR>", "Tmux navigate left" },
-    ["<C-j>"] = { "<cmd>TmuxNavigateDown<CR>", "Tmux navigate down" },
-    ["<C-k>"] = { "<cmd>TmuxNavigateUp<CR>", "Tmux navigate up" },
-    ["<C-l>"] = { "<cmd>TmuxNavigateRight<CR>", "Tmux navigate right" },
+	["o"] = {
+		name = "Obsidian actions",
+		["o"] = { "<cmd>ObsidianOpen<CR>", "[O]pen in [O]bsidian" },
+		["b"] = { "<cmd>ObsidianQuickSwitch<CR>", "[O]bsidian [B]rowse and switch notes" },
+		["f"] = { "<cmd>ObsidianFollowLink<CR>", "[O]bsidian [F]ollow link" },
+		["n"] = { "<cmd>ObsidianNew<CR>", "[O]bsidian create [N]ew note" },
+		["r"] = { "<cmd>ObsidianRename<CR>", "[O]bsidian create [N]ew note" },
+		["s"] = { "<cmd>ObsidianSearch<CR>", "[O]bsidian [S]earch" },
+		["t"] = { "<cmd>ObsidianTemplate<CR>", "[O]bsidian insert [T]emplate" },
+		["w"] = { "<cmd>ObsidianWorkspace<CR>", "[O]bsidian [W]orkspace info" },
+	},
+}, { prefix = "<leader>" })
+
+wk.register({
+	["o"] = {
+		name = "Obsidian actions",
+		["c"] = { ":'<,'>ObsidianLinkNew<CR>", "[O]bsidian [C]reate new note linked to selection" },
+		["l"] = { ":'<,'>ObsidianLink<CR>", "[O]bsidian create [L]ink from selection" },
+	},
+}, { prefix = "<leader>", mode = "v" })
+
+-- Tmux motion integration
+wk.register({
+	["<space>"] = {
+		name = "Working with panes and buffers",
+		["h"] = { "<cmd>TmuxNavigateLeft<CR>", "Focus on left pane" },
+		["j"] = { "<cmd>TmuxNavigateDown<CR>", "Focus on upper pane" },
+		["k"] = { "<cmd>TmuxNavigateUp<CR>", "Focus on right pane" },
+		["l"] = { "<cmd>TmuxNavigateRight<CR>", "Focus on lower pane" },
+	},
+	["<C-h>"] = { "<cmd>TmuxNavigateLeft<CR>", "Tmux navigate left" },
+	["<C-j>"] = { "<cmd>TmuxNavigateDown<CR>", "Tmux navigate down" },
+	["<C-k>"] = { "<cmd>TmuxNavigateUp<CR>", "Tmux navigate up" },
+	["<C-l>"] = { "<cmd>TmuxNavigateRight<CR>", "Tmux navigate right" },
 })
 
 -- Comment
 wk.register({
-    ["<C-_>"] = {
-        "<Plug>(comment_toggle_linewise_current)",
-        "Toggle line comment",
-    },
-    ["<C-/>"] = {
-        "<Plug>(comment_toggle_linewise_current)",
-        "Toggle line comment",
-    },
+	["<C-_>"] = {
+		"<Plug>(comment_toggle_linewise_current)",
+		"Toggle line comment",
+	},
+	["<C-/>"] = {
+		"<Plug>(comment_toggle_linewise_current)",
+		"Toggle line comment",
+	},
 }, {
-    mode = { "n" },
-    silent = true,
-    noremap = true,
-})
-wk.register({
-    ["<C-_>"] = {
-        "<cmd>lua require('Comment.api').toggle.linewise()<CR>",
-        "Toggle line comment",
-    },
-    ["<C-/>"] = {
-        "<cmd>lua require('Comment.api').toggle.linewise()<CR>",
-        "Toggle line comment",
-    },
-}, {
-    mode = { "i" },
-    silent = true,
-    noremap = true,
-})
-wk.register({
-    ["<C-_>"] = {
-        "<Plug>(comment_toggle_linewise_visual)",
-        "Toggle line comment",
-    },
-    ["<C-/>"] = {
-        "<Plug>(comment_toggle_linewise_visual)",
-        "Toggle line comment",
-    },
-}, {
-    mode = { "x" },
+	mode = { "n" },
+	silent = true,
+	noremap = true,
 })
 
--- Abbreviations for Vim-Plug
-cmd("cabb PI PlugInstall")
-cmd("cabb PU PlugUpdate")
-cmd("cabb PC PlugClean")
--- Abbreviations for Telescope
-cmd("cabb TL Telescope")
--- Abbreviations for LSP information
-cmd("cabb LI LspInfo")
-cmd("cabb NI NullLsInfo")
--- Abbreviations for saving
-cmd("cabb W w")
--- Abbreviations for WhickKey
-cmd("cabb ? WhichKey")
+wk.register({
+	["<C-_>"] = {
+		"<cmd>lua require('Comment.api').toggle.linewise()<CR>",
+		"Toggle line comment",
+	},
+	["<C-/>"] = {
+		"<cmd>lua require('Comment.api').toggle.linewise()<CR>",
+		"Toggle line comment",
+	},
+}, {
+	mode = { "i" },
+	silent = true,
+	noremap = true,
+})
+
+wk.register({
+	["<C-_>"] = {
+		"<Plug>(comment_toggle_linewise_visual)",
+		"Toggle line comment",
+	},
+	["<C-/>"] = {
+		"<Plug>(comment_toggle_linewise_visual)",
+		"Toggle line comment",
+	},
+}, {
+	mode = { "x" },
+})
+
+-- Emmet
+wk.register({
+	["<A-e>"] = { "<cmd>LspStart emmet_ls<CR>", "Start Emmet" },
+	["<A-S-e>"] = { "<cmd>LspStop emmet_ls<CR>", "Stop Emmet" },
+}, {
+	mode = { "n", "i" },
+	silent = true,
+	noremap = true,
+})
+
+-- Iron
+wk.register({
+	["<leader>cs"] = {
+		"<cmd>lua require('iron.core').send_line()<CR>",
+		"Iron [S]end [C]ommand",
+	},
+}, {
+	mode = { "n" },
+	silent = true,
+	noremap = true,
+})
+
+wk.register({
+	["<leader>cs"] = {
+		"<cmd>lua require('iron.core').visual_send()<CR>",
+		"Iron Visual [S]end [C]ommand",
+	},
+}, {
+	mode = { "v" },
+	silent = true,
+	noremap = true,
+})
+
+-- Command palette
+wk.register({
+	[";"] = { "<cmd>FineCmdline<CR>", "Command Palette" },
+}, {
+	mode = { "n" },
+	silent = true,
+	noremap = true,
+})
+
+wk.register({
+	["<C-p>"] = { "<cmd>FineCmdline<CR>", "Command [P]alette" },
+}, {
+	mode = { "i" },
+	silent = true,
+	noremap = true,
+})

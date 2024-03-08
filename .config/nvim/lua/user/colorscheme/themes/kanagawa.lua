@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
--- NeoVim config module for Nightfox colorscheme
+-- NeoVim config module for Kanagawa colorscheme
 -----------------------------------------------------------------------
 
 local kanagawa_status_ok, kanagawa = pcall(require, "kanagawa")
@@ -20,7 +20,7 @@ kanagawa.setup({
     transparent = vim.g.transparent_enabled,
     dimInactive = false, -- dim inactive window `:h hl-NormalNC`
     globalStatus = false, -- adjust window separators highlight for laststatus=3
-    terminalColors = true, -- define vim.g.terminal_color_{0,17}
+    terminalColors = false, -- define vim.g.terminal_color_{0,17}
     colors = {},
     theme = {
         dark = "dragon",

@@ -4,24 +4,26 @@
 
 local colorizer_status_ok, colorizer = pcall(require, "colorizer")
 if not colorizer_status_ok then
-    return
+	return
 end
 
 colorizer.setup({
-    "css",
-    "scss",
-    "javascript",
-    "typescript",
-    "jsx",
-    "tsx",
-    "dart",
-    "toml",
-    "sh",
-    "dosini",
-    html = {
-        mode = "foreground",
-    },
-    dart = {
-        rgb_0x = true, -- enable parsing "0xAARRGGBB"
-    },
+	user_default_options = {
+		filetypes = {
+			"css",
+			"scss",
+			"javascript",
+			"typescript",
+			"jsx",
+			"tsx",
+			"dart",
+			"toml",
+			"sh",
+			"dosini",
+			html = { mode = "foreground" },
+		},
+		mode = "virtualtext",
+		virtualtext = "■",
+		AARRGGBB = true, -- 0xAARRGGBB hex codes
+	},
 })
