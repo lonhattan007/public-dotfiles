@@ -17,7 +17,7 @@ TBA
 
 ## Features
 
-* Plugins management via [vim-plug](https://github.com/junegunn/vim-plug)
+* Plugins management via [Lazy.nvim](https://github.com/folke/lazy.nvim)
 * Auto install plugins
 * Keymaps: Supports a set of custom keymaps, as well as some standard keymaps inspired from `vim` and other editors
 * General code supports:
@@ -27,6 +27,10 @@ TBA
   - Git supports
   - Context sticky scrolling
   - ...
+* Git integration:
+  - Git commands integration via [fugitive](https://github.com/tpope/vim-fugitive)
+  - Git signs via [gitsigns](https://github.com/lewis6991/gitsigns.nvim)
+  - Diffview via [diffview](https://github.com/sindrets/diffview.nvim)
 * Note-taking supports:
   - Obsidian integration
   - Markdown preview
@@ -56,10 +60,13 @@ TBA
     + 3 contrast levels: soft, medium, hard
   - [Onedark](https://github.com/navarasu/onedark.nvim)
     + 6 dark flavors: dark, darker, cool, deep, warm, warmer
-    + 1 light flavor: light
+    + 1 light flavour: light
   - [Github theme](https://github.com/projekt0n/github-nvim-theme)
     + 5 dark flavours: dark, dark dimmed, dark high contrast, dark colorblind, dark tritanopia
     + 4 light flavors: light, light high contrast, light colorblind, light tritanopia
+  - [Rose-pine](https://github.com/rose-pine/neovim)
+    + 2 dark flavours: main, moon
+    + 1 light flavour: dawn
   - All of them support [transparency](https://github.com/xiyaowong/transparent.nvim), which I use in conjunction with my terminal setups.
 * Others:
   - Discipline for good practice in `vim` via [hardtime](https://github.com/m4xshen/hardtime.nvim)
@@ -68,10 +75,7 @@ TBA
 
 ## Plugins management
 
-Though I have prepared a snippet for setting up `Lazy.nvim`, I'm currently have no motivation to migrate from `Plug`.
-`Lazy` is said to boost the startup time and have better dependency management between plugins, but for me adding or removing plugins in the `Plug` way feels easier.
-
-My config auto installs the plugin manager and missing plugins by default now. Through the code in charge of this is currently written in Vimscript, it works fine so I might consider migrate to Lua if I got time.
+`Lazy` is used as the plugin manager. The overall performace gets a noticable boost (especially on Windows).
 
 ## Supported languages:
 
@@ -100,4 +104,6 @@ Formatters and linters requires manual configurations.
 
 ## Thanks-to
 
-- [LunarVim's](https://www.lunarvim.org/) [Neovim-from-scratch](https://github.com/LunarVim/Neovim-from-scratch) template for my config structure.
+- [LunarVim's](https://www.lunarvim.org/) [Neovim-from-scratch](https://github.com/LunarVim/Neovim-from-scratch) - template for my config structure.
+- [TJ's](https://github.com/tjdevries) [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - some config references.
+- [Josean Martinezs'](https://github.com/josean-dev) [config](https://github.com/josean-dev/dev-environment-files) - some config references.

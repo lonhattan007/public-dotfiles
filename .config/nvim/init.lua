@@ -27,17 +27,5 @@ require("user.base")
 -- Plugins installation
 require("user.plugins")
 
--- Keymaps
-require("user.keymaps")
-
--- UI and interactive utilities: file browser, terminal, etc.
-require("user.ui_utils")
-
--- LSP related utilities
-require("user.lsp")
-
 -- Colorscheme and syntax highlighting
 require("user.colorscheme")
-
--- Code-support utilities: completions, auto-pair-and-close, zen mode, etc.
-require("user.code_utils")

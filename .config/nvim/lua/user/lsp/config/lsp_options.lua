@@ -6,31 +6,31 @@ local M = {}
 
 M.language_servers = {
 	-- My fav --------------------------
-	"efm",
-	"pylsp",
+	-- "efm",
+	-- "pylsp",
 	-- "pyright",
 	-- "gopls",
 	-- "dartls", -- Included in flutter-tools
 	-- Documentation, operation, config
-	"jsonls",
-	"yamlls",
-	"dockerls",
-	"docker_compose_language_service",
-	"bashls",
-	"marksman",
-	"texlab",
+	-- "jsonls",
+	-- "yamlls",
+	-- "dockerls",
+	-- "docker_compose_language_service",
+	-- "bashls",
+	-- "marksman",
+	-- "texlab",
 	-- "taplo",
 	-- "terraformls",
 	-- Basic front end stuff -----------
-	"html",
-	"emmet_ls",
-	"cssls",
+	-- "html",
+	-- "emmet_ls",
+	-- "cssls",
 	-- Advanced front end stuff --------
 	-- "svelte",
 	-- "vuels",
-	"tailwindcss",
-	"tsserver",
-	"denols",
+	-- "tailwindcss",
+	-- "tsserver",
+	-- "denols",
 	-- Android stuff -------------------
 	-- "kotlin_language_server",
 	-- "jdtls",
@@ -39,11 +39,11 @@ M.language_servers = {
 	-- "omnisharp", -- dotnet
 	-- "prismals",
 	-- "graphql",
-	"sqlls",
+	-- "sqlls",
 	-- Other stuff ---------------------
-	"lua_ls",
+	-- "lua_ls",
 	-- "rust_analyzer",
-	"clangd",
+	-- "clangd",
 }
 
 local wk = require("which-key")
@@ -159,7 +159,10 @@ M.on_attach = function(client, bufnr)
 	-- renamer
 	wk.register({
 		["<F2>"] = { "<cmd>lua require('renamer').rename()<CR>", "Rename" },
-		["<leader>r"] = { "<cmd>lua require('renamer').rename()<CR>", "[R]ename" },
+		["<leader>r"] = {
+			"<cmd>lua require('renamer').rename()<CR>",
+			"[R]ename",
+		},
 	}, {
 		mode = { "n", "v" },
 		silent = true,

@@ -23,7 +23,7 @@ opt.sidescroll = 8
 opt.splitright = true
 opt.splitbelow = true
 
--- opt.winbar = "%=%f"
+opt.winbar = "%=%f"
 opt.showmode = false
 
 -- opt.iskeyword:append("-")

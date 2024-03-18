@@ -9,7 +9,6 @@ local cmd = vim.cmd
 opt.wrap = false
 opt.linebreak = true
 
-
 -- api.nvim_create_autocmd("FileType", {
 -- 	pattern = {
 -- 		"tex",
@@ -22,12 +21,11 @@ opt.linebreak = true
 -- })
 
 api.nvim_create_autocmd({ "BufNewFile", "BufRead", "BufEnter" }, {
-	pattern = {
-		"*.tex"
-	},
-	callback = function()
-		cmd("setlocal textwidth=120")
-		cmd("setlocal colorcolumn=+1")
-	end,
+    pattern = {
+        "*.tex",
+    },
+    callback = function()
+        cmd("setlocal textwidth=120")
+        cmd("setlocal colorcolumn=+1")
+    end,
 })
-

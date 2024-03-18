@@ -2,10 +2,16 @@
 
 dir="$HOME/.config/polybar"
 themes=(`ls --hide="launch.sh" $dir`)
+cache_file="$HOME/.cache/polybar_theme"
 
 launch_bar() {
 	# Terminate already running bar instances
-	killall -q polybar
+	killall -q polybar;
+
+	if [[ $DESKTOP_SESSION == "bspwm" ]]; then
+		bspc config top_padding 0
+		bspc config bottom_padding 0
+	fi
 
 	# Wait until the processes have been shut down
 	while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
@@ -36,14 +42,20 @@ launch_bar() {
 if [[ "$1" == "--cuts" ]]; then
 	style="cuts"
 	launch_bar
+	sed -i '1d' $cache_file >> $cache_file
+	echo $style >> $cache_file
 
 elif [[ "$1" == "--forest" ]]; then
 	style="forest"
 	launch_bar
+	sed -i '1d' $cache_file
+	echo $style >> $cache_file
 
 elif [[ "$1" == "--catppuccin" ]]; then
 	style="catppuccin"
 	launch_bar
+	sed -i '1d' $cache_file
+	echo $style >> $cache_file
 
 else
 	cat <<- EOF

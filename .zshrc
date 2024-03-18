@@ -131,35 +131,252 @@ bindkey -v
 export VISUAL=nvim
 export EDITOR=nvim
 
-# eval $(/usr/bin/gnome-keyring-daemon --start --components=ssh)
 
-# Tmux
-alias tmuxrc="tmux source ~/.config/tmux/tmux.conf"
+# Zoxide ---------------------------------------------------------------------
 
-# Git
+_z_cd() {
+    cd "$@" || return "$?"
+
+    if [ "$_ZO_ECHO" = "1" ]; then
+        echo "$PWD"
+    fi
+}
+
+z() {
+    if [ "$#" -eq 0 ]; then
+        _z_cd ~
+    elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
+        if [ -n "$OLDPWD" ]; then
+            _z_cd "$OLDPWD"
+        else
+            echo 'zoxide: $OLDPWD is not set'
+            return 1
+        fi
+    else
+        _zoxide_result="$(zoxide query -- "$@")" && _z_cd "$_zoxide_result"
+    fi
+}
+
+zi() {
+    _zoxide_result="$(zoxide query -i -- "$@")" && _z_cd "$_zoxide_result"
+}
+
+
+alias za='zoxide add'
+
+alias zq='zoxide query'
+alias zqi='zoxide query -i'
+
+alias zr='zoxide remove'
+zri() {
+    _zoxide_result="$(zoxide query -i -- "$@")" && zoxide remove "$_zoxide_result"
+}
+
+
+_zoxide_hook() {
+    zoxide add "$(pwd -L)"
+}
+
+chpwd_functions=(${chpwd_functions[@]} "_zoxide_hook")
+
+
+# SSH ------------------------------------------------------------------------
+
+# if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+#     ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+# fi
+# if [[ ! -f "$SSH_AUTH_SOCK" ]]; then
+#     source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+# fi
+
+
+# Git ------------------------------------------------------------------------
 alias g="git"
 
-# nvm
+
+# AWS ------------------------------------------------------------------------
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+complete -C '/usr/local/bin/aws_completer' aws
+
+
+# nvm ------------------------------------------------------------------------
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export PATH="$PATH:$HOME/.nvm/versions/node/**/bin"
 
-# Python 3
-alias python="/usr/bin/python3"
 
-# Cargo
+# Deno -----------------------------------------------------------------------
+export DENO_INSTALL="/home/nhattan/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
+
+# Android Sdk
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH="$PATH:$HOME/Android/Sdk"
+# Android Studio Emulator
+export PATH="$PATH:$ANDROID_HOME/emulator"
+# Android Debug Bridge
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+
+
+# Flutter --------------------------------------------------------------------
+export PATH="$PATH:$HOME/.local/bin/flutter/bin"
+# Dart pub
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+
+# Python 3 -------------------------------------------------------------------
+alias python="python3"
+
+# Conda ----------------------------------------------------------------------
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/home/nhattan/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/nhattan/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/nhattan/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/nhattan/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda initialize <<<
+
+export CONDA_ACTIVATE_PATH="$HOME/anaconda3/bin/activate"
+alias conda-init="source $CONDA_ACTIVATE_PATH && conda init"
+
+
+# Golang ---------------------------------------------------------------------
+export PATH="$PATH:$HOME/.local/bin/go/bin"
+export PATH="$PATH:$HOME/go/bin"
+export PATH="$PATH:/usr/local/go/bin"
+
+
+# Rust -----------------------------------------------------------------------
 export PATH="$PATH:$HOME/.cargo/bin"
 
-# Polybar-launch
-alias polybar-launch="$HOME/.config/polybar/launch.sh"
+
+# Swift
+export PATH="$HOME/.local/bin/swift/bin:$PATH"
+
+
+# Texlive
+# export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
+# MikTex
+export PATH="$HOME/bin:$PATH"
+
+
+# ANTLR4 ---------------------------------------------------------------------
+# export ANTLR_JAR="$HOME/.local/lib/antlr-4.9.2-complete.jar"
+# alias antlr4='java -Xmx500M -cp "$HOME/.local/lib/antlr-4.9.2-complete.jar:$ANTLR_JAR" org.antlr.v4.Tool'
+# alias grun='java -Xmx500M -cp "$HOME/.local/lib/antlr-4.9.2-complete.jar:$ANTLR_JAR" org.antlr.v4.gui.TestRig'
+# export CLASSPATH=".:$HOME/.local/lib/antlr-4.9.2-complete.jar":$CLASSPATH
+# alias antlr4='java -jar /usr/local/lib/antlr-4.9.2-complete.jar'
+# alias grun='java org.antlr.v4.gui.TestRig'
+
+
+# Spicetify ------------------------------------------------------------------
+alias spicefify="$HOME/.spicetify/spicetify"
+export PATH="$PATH:$HOME/.spicetify"
+
+
+# Aliases & terminal stuffs ---------------------------------------------------
+
+# Web search from zsh
+alias gg=google
 
 # nvim
 alias vim='nvim'
 
+# Polybar launcher
+alias polybar-launch="$HOME/.config/polybar/launch.sh"
+
+# i3 layout manager
+alias layout_manager="$HOME/.config/i3/layout_manager.sh"
+
+# postman
+alias postman='flatpak run com.getpostman.Postman'
+
+# insomnia
+alias insomnia='flatpak run rest.insomnia.Insomnia'
+
+# onlyoffice
+alias onlyoffice='flatpak run org.onlyoffice.desktopeditors'
+
+# sioyek
+alias sioyek='flatpak run com.github.ahrm.sioyek'
+
+# matrix
+alias matrix='reset && cmatrix'
+
+# cbonsai on dashboard
+alias bonsai='cbonsai -li -L 19'
+
+# tty-clock on dashboard
+alias clock='tty-clock -cD'
+
+# Timeshift-gtk
+alias timeshift-gtk='pkexec timeshift-gtk'
+
+# lazygit
+alias lg='lazygit'
+
 # pfetch
+# Enable color in output: 0/1
+export PF_COLOR=1
+# Color of info names: 0-9
+export PF_COL1=4
+# Color of info data: 0-9
+export PF_COL2=9
+# Color of title data: 0-9
+export PF_COL3=3
+# Ascii art to use
 export PF_ASCII="Catppuccin"
 
-alias gg=google
+# pipes
+#alias pipes='pipes.sh'
 
-clear && treefetch -b
+# Ranger highlight
+export HIGHLIGHT_STYLE=clarity
+
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# SDKMan ---------------------------------------------------------------------
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+
+# ZSH startup ----------------------------------------------------------------
+
+# Pywal
+# reset
+#wal -Rnq
+
+# Treefetch
+if [[ $(tput lines) -ge 13 ]] && [[ $(tput cols) -ge 51 ]]; 
+then
+	clear
+
+	random=$(shuf -i 1-3 -n 1)
+	if [ $random -eq 1 ]
+	then
+		treefetch -x
+	elif [ $random -eq 2 ]
+	then
+		treefetch -b
+	else
+		pfetch
+	fi
+fi
+# clear && treefetch -b
+

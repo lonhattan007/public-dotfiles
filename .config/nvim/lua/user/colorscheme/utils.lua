@@ -24,7 +24,7 @@ local tmuxline_cache_path = vim.fn.stdpath("data")
 --	tokyonight-moon					tokeyonight-day
 --	onedark		everforest
 --	rose-pine	rose-pine-moon		rose-pine-dawn
-local default_colorscheme = "catppuccin"
+local default_colorscheme = "habamax"
 
 M.write_colorscheme = function(colorscheme)
     vim.fn.writefile({ tostring(colorscheme) }, color_cache_path)

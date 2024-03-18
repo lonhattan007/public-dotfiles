@@ -229,3 +229,10 @@ shift + Print
 super + shift + s
 	gnome-screenshot -i
 
+#
+# Lock screen
+#
+
+ctrl + alt + l
+	$HOME/.config/polybar/common/scripts/lockscreen.sh
+

@@ -6,23 +6,30 @@ M = {}
 
 -- Abbreviations for command mode
 M.command = {
-	-- Abbreviations for Vim-Plug
-	["PI"] = "PlugInstall",
-	["PU"] = "PlugUpdate",
-	["PC"] = "PlugClean",
-	-- Abbreviations for Telescope
+	-- Vertical help menu
+	["vh"] = "vert help",
+	-- Vim-Plug
+	["PI"] = "Lazy install", -- plugin install
+	["PU"] = "Lazy update", -- plugin update
+	["PC"] = "Lazy clear", -- plugin clear
+	["PS"] = "Lazy sync", -- plugin sync
+	-- Telescope
 	["TL"] = "Telescope",
-	-- Abbreviations for LSP information
+	["FL"] = "Flutter",
+	-- LSP
 	["LI"] = "LspInfo",
-	["LS"] = "LspStart",
+	["LA"] = "LspStart", -- short for Lsp Attach
 	["LR"] = "LspRestart",
-	["LC"] = "LspStop",
+	["LS"] = "LspStop",
 	-- ["NI"] = "NullLsInfo",
-	-- Abbreviations for saving
+	-- Diffview
+	["DO"] = "DiffviewOpen",
+	["DC"] = "DiffviewClose",
+	-- Write file
 	["W"] = "w",
-	-- Abbreviations for WhickKey
+	-- WhickKey
 	["?"] = "WhichKey",
-	-- Abbreviations for Iron
+	-- Iron Repl
 	["IA"] = "IronAttach",
 	["IF"] = "IronFocus",
 	["IH"] = "IronHide",

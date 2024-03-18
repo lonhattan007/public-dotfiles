@@ -1,8 +1,0 @@
-require("user.colorscheme.themes.catppuccin")
-require("user.colorscheme.themes.nightfox")
-require("user.colorscheme.themes.onedark")
-require("user.colorscheme.themes.kanagawa")
-require("user.colorscheme.themes.tokyonight")
-require("user.colorscheme.themes.everforest")
-require("user.colorscheme.themes.github_theme")
-require("user.colorscheme.themes.onenord")

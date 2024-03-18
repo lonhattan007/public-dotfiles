@@ -17,6 +17,8 @@ configuration {
     fullscreen:                     false;
 	hide-scrollbar: 				true;
 	sidebar-mode: 					false;
+	kb-row-up:						"Up,k";
+	kb-row-down:					"Down,j";
 }
 
 @import "colors.rasi"

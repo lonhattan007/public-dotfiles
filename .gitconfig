@@ -1,0 +1,73 @@
+[user]
+	name = Nhat Tan
+	email = 66843927+lonhattan007@users.noreply.github.com
+
+[core]
+	pager = delta
+	autocrlf = input
+	eol = lf
+
+[init]
+	defaultBranch = main
+
+[diff]
+	guitool = vscode
+
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+	; tool = meld
+	tool = vscode
+
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
+
+[mergetool "meld"]
+	path = /usr/bin/meld
+
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+
+[delta]
+	line-numbers = true
+	features = decorations
+	side-by-side = true
+	light = false
+
+[delta "interactive"]
+	keep-plus-minus-markers = false
+
+[delta "decorations"]
+	commit-decoration-style = blue ol
+	commit-style = raw
+	file-style = omit
+	hunk-header-decoration-style = blue box
+	hunk-header-file-style = red
+	hunk-header-line-number-style = "#067a00"
+	hunk-header-style = file line-number syntax
+
+[alias]
+	a = add
+	au = add -u
+	aa = add .
+	b = branch
+	cl = clone
+	cm = commit -m
+	ca = commit --amend
+	cam = commit -am
+	co = checkout
+	d = diff
+	dt = difftool
+	l = log
+	lr = log --raw
+	lp = log --patch
+	mg = merge
+	mt = mergetool
+	st = status
+	sh = stash
+	sp = stash pop
+	sc = stash clear
+	ps = push
+	pl = pull
+

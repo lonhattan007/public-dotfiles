@@ -2,14 +2,17 @@
 -- NeoVim config module for headlines in markdown files
 -----------------------------------------------------------------------
 
-local headlines_status_ok, headlines = pcall(require, "headlines")
-if not headlines_status_ok then
-	return
-end
+M = {
+	{
+		"lukas-reineke/headlines.nvim",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		opts = {
+			-- No support for other markup syntaxes
+			org = {},
+			norg = {},
+			rmd = {},
+		},
+	},
+}
 
-headlines.setup({
-	-- No support for other markup syntaxes
-	org = {},
-	norg = {},
-	rmd = {},
-})
+return {}
