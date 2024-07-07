@@ -1,0 +1,46 @@
+{
+  "blocked": [
+    "10fastfingers.com",
+    "monkeytype.com",
+    "typing.works"
+  ],
+  "close": 0,
+  "contextmenu-frame": true,
+  "contextmenu-pause": true,
+  "contextmenu-resume": true,
+  "contextmenu-top": true,
+  "crate": 5,
+  "css": "",
+  "initialBlock": true,
+  "initialBlockCurrent": true,
+  "last-update": 1683081251073,
+  "map": {},
+  "message": "",
+  "no-password-on-add": true,
+  "pause-periods": [
+    5,
+    10,
+    15,
+    30,
+    60,
+    360,
+    1440
+  ],
+  "redirect": "",
+  "retries": {
+    "count": 0,
+    "first": 0
+  },
+  "reverse": false,
+  "schedule": {
+    "times": {}
+  },
+  "schedule-offset": 0,
+  "schedules": {},
+  "sha256": "6a28e619e4204ac1b45aa39fbdc9826608910879962ce178ccc0aa572ff661d6",
+  "timeout": 5,
+  "title": true,
+  "wrong": 1,
+  "managed.storage.overwrite.on.start": false,
+  "guid": "3719c3ac-8235-41a5-a6a5-5d3d5bcde14a"
+}
