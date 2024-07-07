@@ -3,26 +3,28 @@
 -----------------------------------------------------------------------
 
 return {
-    "NvChad/nvim-colorizer.lua",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {
-        user_default_options = {
-            filetypes = {
-                "css",
-                "scss",
-                "javascript",
-                "typescript",
-                "jsx",
-                "tsx",
-                "dart",
-                "toml",
-                "sh",
-                "dosini",
-                html = { mode = "foreground" },
-            },
-            mode = "virtualtext",
-            virtualtext = "■",
-            AARRGGBB = true, -- 0xAARRGGBB hex codes
-        },
-    },
+	"NvChad/nvim-colorizer.lua",
+	event = { "BufReadPre", "BufNewFile" },
+	opts = {
+		user_default_options = {
+			filetypes = {
+				"css",
+				"scss",
+				"javascript",
+				"typescript",
+				"jsx",
+				"tsx",
+				"dart",
+				"toml",
+				"sh",
+				"dosini",
+				"html",
+				-- ["html"] = { mode = "background" },
+			},
+			mode = "virtualtext",
+			virtualtext = "■",
+			AARRGGBB = true, -- 0xAARRGGBB hex codes
+			tailwind = true,
+		},
+	},
 }

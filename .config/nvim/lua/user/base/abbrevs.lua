@@ -22,6 +22,9 @@ M.command = {
 	["LR"] = "LspRestart",
 	["LS"] = "LspStop",
 	-- ["NI"] = "NullLsInfo",
+	-- Copilot
+	["CE"] = "Copilot enable",
+	["CD"] = "Copilot disable",
 	-- Diffview
 	["DO"] = "DiffviewOpen",
 	["DC"] = "DiffviewClose",

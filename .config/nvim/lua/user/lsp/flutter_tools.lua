@@ -10,19 +10,33 @@ return {
         "stevearc/dressing.nvim", -- optional for vim.ui.select
     },
     config = function()
+		local home_path = require("user.utils").home_path
+		local path_sep = require("user.utils").path_sep
+		local concat_paths = require("user.utils").concat_paths
+
         local sys_flutter_path = ""
-        local path_sep = package.config:sub(1, 1)
 
         if path_sep == "/" then
             -- unix path separator
             -- equivalent of "$HOME/Development/..."
-            sys_flutter_path = vim.fn.stdpath("config")
-                .. "/../../.local/bin/flutter/bin/flutter"
+            sys_flutter_path = concat_paths({
+				home_path,
+				".local",
+				"bin",
+				"flutter",
+				"bin",
+				"flutter",
+			})
         elseif path_sep == "\\" then
             -- windows path separator
             -- equivalent of "$HOME/Development/..."
-            sys_flutter_path = vim.fn.stdpath("config")
-                .. "\\..\\..\\..\\Development\\flutter\\bin\\flutter.bat"
+            sys_flutter_path = concat_paths({
+				home_path,
+				"Development",
+				"flutter",
+				"bin",
+				"flutter.bat",
+			})
         end
 
         local lsp_options = require("user.lsp.config.lsp_options")

@@ -1,9 +1,19 @@
 #!/bin/bash
 
+# $1: the X window id of the window that need to be added to the tree;
+# $2: the class_name of the window;
+# $3: the instance_name of the window;
+# $4: the "consequences"; i.e. what has been applied so far.
+
 case $class in
- '')
-     pid=$(xprop -id $1 _NET_WM_PID | awk '{print $NF}')
-     [ -n "$pid" ] && cmd="$(ps -q "$pid" -o comm=)"
-     [ "$cmd" = qemu-system-x86 ] && echo "state=floating"
-     ;;
+	'')
+		pid=$(xprop -id $1 _NET_WM_PID | awk '{print $NF}')
+		[ -n "$pid" ] && cmd="$(ps -q "$pid" -o comm=)"
+		[ "$cmd" = qemu-system-x86 ] && echo "state=floating"
+		;;
 esac
+
+if [[ $(echo "$2" | awk '{ print substr($1,1,9) }') = "jetbrains" ]]; then
+	welcome_name=$(xprop -id $1 _NET_WM_NAME | awk '{print substr($3,2)" "$4}')
+	[ "$welcome_name" = "Welcome to" ] && echo "state=floating"
+fi

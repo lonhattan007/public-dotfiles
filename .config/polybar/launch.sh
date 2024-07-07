@@ -11,6 +11,8 @@ launch_bar() {
 	if [[ $DESKTOP_SESSION == "bspwm" ]]; then
 		bspc config top_padding 0
 		bspc config bottom_padding 0
+	elif [[ $DESKTOP_SESSION == "i3" ]]; then
+		i3-msg gaps top all set 3
 	fi
 
 	# Wait until the processes have been shut down
@@ -56,6 +58,12 @@ elif [[ "$1" == "--catppuccin" ]]; then
 	launch_bar
 	sed -i '1d' $cache_file
 	echo $style >> $cache_file
+
+	if [[ "$DESKTOP_SESSION" == "bspwm" ]]; then
+		bspc config top_padding 42
+	elif [[ "$DESKTOP_SESSION" == "i3" ]]; then
+		i3-msg gaps top all set 42
+	fi
 
 else
 	cat <<- EOF

@@ -42,6 +42,15 @@ require("lazy").setup({
 	-- tmux motion integration
 	{ "christoomey/vim-tmux-navigator", event = "VeryLazy" },
 
+	-- search index
+	{ "google/vim-searchindex", event = "VeryLazy" },
+
+	-- unicode characters helper
+	{ "chrisbra/unicode.vim" },
+
+	-- highlighting for rasi files
+	{ "Fymyte/rasi.vim" },
+
 	-- vim discipline
 	{
 		"m4xshen/hardtime.nvim",

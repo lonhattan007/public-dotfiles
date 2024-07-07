@@ -9,15 +9,23 @@ keymap({ "n", "v" }, "<C-d>", "<C-d>zz", { desc = "Scroll half page down" })
 keymap({ "n", "v" }, "<C-u>", "<C-u>zz", { desc = "Scroll half page up" })
 keymap({ "n", "v" }, "<C-f>", "<C-f>zz", { desc = "Scroll full page down" })
 keymap({ "n", "v" }, "<C-b>", "<C-b>zz", { desc = "Scroll full page up" })
-keymap({ "n", "v" }, "<A-j>", "<C-d>zz", { desc = "Scroll half page down" })
-keymap({ "n", "v" }, "<A-k>", "<C-u>zz", { desc = "Scroll half page up" })
-keymap({ "n", "v" }, "<A-h>", "8zh", { desc = "Scroll right" })
-keymap({ "n", "v" }, "<A-l>", "8zl", { desc = "Scroll left" })
+-- keymap({ "n", "v" }, "<A-j>", "<C-d>zz", { desc = "Scroll half page down" })
+keymap(
+	{ "n", "v" },
+	"<A-j>",
+	math.floor(vim.api.nvim_win_get_height(0) / 2) .. "jzz",
+	{ desc = "Scroll half page down" }
+)
+-- keymap({ "n", "v" }, "<A-k>", "<C-u>zz", { desc = "Scroll half page up" })
+keymap({ "n", "v" }, "<A-k>", math.floor(vim.api.nvim_win_get_height(0) / 2) .. "kzz", { desc = "Scroll half page up" })
+keymap({ "n", "v" }, "<S-h>", "8zh", { desc = "Scroll right" })
+keymap({ "n", "v" }, "<S-l>", "8zl", { desc = "Scroll left" })
 
 -- Quick move and delete words in insert mode
 -- This is Ctrl + backspace
-keymap("i", "<C-H>", "<C-o>db<Esc>xa", { desc = "Deleted word before cursor" })
-keymap("i", "<C-BS>", "<C-o>db<Esc>xa", { desc = "Deleted word before cursor" })
+-- keymap("i", "<C-H>", "<C-o>db<Esc>a", { desc = "Deleted word before cursor" })
+keymap("i", "<C-H>", "<space><C-o>cb", { desc = "Deleted word before cursor" })
+keymap("i", "<C-BS>", "<space><C-o>cb", { desc = "Deleted word before cursor" })
 keymap("i", "<C-Del>", "<C-o>de", { desc = "Deleted word after cursor" })
 keymap("i", "<C-Left>", "<C-o>b", { desc = "Move to previous word" })
 -- keymap("i", "<C-Right>", "<Esc>Ea", { desc = "Move to next word" })
@@ -44,10 +52,10 @@ keymap("v", "<A-down>", ":m '>+1<CR>ggv=gv", { desc = "move selection downward" 
 keymap("v", "<A-up>", ":m '<-2<CR>ggv=gv", { desc = "move selection upward" })
 
 -- Lock arrow keys in normal and visual mode
-keymap({ "n", "v" }, "<Left>", "<cmd>echo 'Use h!'<CR>g")
-keymap({ "n", "v" }, "<Down>", "<cmd>echo 'Use j!'<CR>g")
-keymap({ "n", "v" }, "<Up>", "<cmd>echo 'Use k!'<CR>g")
-keymap({ "n", "v" }, "<Right>", "<cmd>echo 'Use l!'<CR>g")
+keymap({ "n", "v" }, "<Left>", "<cmd>echo 'Use h!'<CR>")
+keymap({ "n", "v" }, "<Down>", "<cmd>echo 'Use j!'<CR>")
+keymap({ "n", "v" }, "<Up>", "<cmd>echo 'Use k!'<CR>")
+keymap({ "n", "v" }, "<Right>", "<cmd>echo 'Use l!'<CR>")
 
 -- Change recording keymap
 keymap({ "n", "v" }, "<leader>q", "q", { desc = "Record macro", noremap = true })
@@ -83,3 +91,11 @@ keymap("n", "<space><Left>", "<C-w><<CR>", { desc = "Decrease pane width" })
 keymap("n", "<space><Right>", "<C-w>><CR>", { desc = "Increase pane width" })
 keymap("n", "<space>=", "<C-w>=<CR>", { desc = "Equalize split sizes" })
 keymap("n", "<space>x", "<cmd>bp<bar>sp<bar>bn<bar>bd<bar>Alpha<CR>", { desc = "Exit to dashboard" })
+
+-- Working with the built-in terminal
+-- Shift-F[1-12]: F[13-24]
+-- Ctrl-F[1-12]: F[25-36]
+-- Alt-F[1-12]: F[49-60]
+-- This is Alt-F12
+keymap("n", "<F60>", "<cmd>bo term<CR><cmd>resize 10<CR>i", { desc = "Built-in bottom terminal" })
+keymap("t", "<leader>n", "<C-\\><C-n>", { desc = "Switch to terminal-normal mode" })

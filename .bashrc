@@ -121,6 +121,12 @@ fi
 
 source /etc/profile.d/bash_completion.sh
 
+# Vi mode
+set -o vi
+
+# ctrl+backspace to delete a word
+stty werase '^h'
+
 
 # Zoxide ---------------------------------------------------------------------
 
@@ -286,6 +292,7 @@ export PATH="$PATH:$HOME/.spicetify"
 alias gg=google
 
 # nvim
+export PATH="$PATH:/opt/nvim-linux64/bin"
 alias vim='nvim'
 
 # Polybar launcher
@@ -340,7 +347,11 @@ export PF_ASCII="Catppuccin"
 export HIGHLIGHT_STYLE=clarity
 
 # FZF
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash || eval "$(fzf --bash)"
+# For newest versions
+# eval "$(fzf --bash)"
+[ -f ~/.fzf.git.sh ] && source ~/.fzf.git.sh
+export FZF_DEFAULT_OPTS="--bind=tab:down,btab:up,alt-j:toggle+down,alt-k:toggle+up"
 
 
 # SDKMan ---------------------------------------------------------------------

@@ -1,3 +1,6 @@
+# sxhkd config for bspwm setup
+# Use `xev` to detect keys' IDs
+
 #
 # wm independent hotkeys
 #
@@ -10,6 +13,10 @@ super + Return
 ctrl + alt + t
 	gnome-terminal
 
+# scratchpad emulator
+super + shift + Return
+	bspc rule -a \* -o state=floating sticky=on layer=above rectangle=720x360+600+26 && alacritty
+
 # program launcher
 #super + @space
 super + d
@@ -17,6 +24,9 @@ super + d
 
 # Rofi launcher
 alt + d
+	$HOME/.config/polybar/common/scripts/launcher.sh
+
+alt + @space
 	$HOME/.config/polybar/common/scripts/launcher.sh
 
 # File explorer
@@ -32,7 +42,8 @@ super + b
 
 # Settings
 super + i
-	cinnamon-settings
+	$HOME/rofi-settings-menu/scripts/settings-menu.sh
+	# cinnamon-settings
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -90,25 +101,39 @@ super + ctrl + {m,x,y,z}
 # focus/swap
 #
 
-# focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+# focus the next/previous node in the current desktop
+super + {j,k}
+	bspc node -f {next,prev}.local.leaf
+
+super + {semicolon,colon}
+	bspc {monitor -f, node -m} next
+
+# super + h
+# 	bspc monitor -f next
+
+# super + {less,greater}
+# 	bspc node -m {prev,next}
+
+# focus and swap the node in the given direction
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}
+
+super + shift + {h,j,k,l}
+	bspc node -s {west,south,north,east}
 
 # focus the node for the given path jump
-super + {p,b,comma,period}
+# super + {p,b,comma,period}
+	# bspc node -f @{parent,brother,first,second}
+super + {o,u,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
-# focus the next/previous node in the current desktop
-super + {Left,Right}
-	bspc node -f {prev,next}.local
-
-# swap the current node and the biggest node
-super + Up
-	bspc node -s biggest.local
+# swap the current node and the biggest/last node
+super + shift + {Up,Down}
+	bspc node -s {biggest,last}.local
 
 # swap the current node and the last focused node
-super + Down
-	bspc node -s last.local
+# super + Down
+# 	bspc node -s last.local
 
 # circulate windows in the current desktop
 super + bracket{left,right}
@@ -119,7 +144,7 @@ super + shift + bracket{left,right}
 	bspc node @/ -R {270,90}
 
 # rotate windows in the current desktop / mirroring
-super + {_,shift} + m
+super + {x,y}
 	bspc node @/ -F {horizontal,vertical}
 
 # cycle through workspaces / focus the next/prev desktop in the current monitor
@@ -128,6 +153,12 @@ super + Tab
 
 super + shift + Tab
 	bspc desktop -f prev.occupied.local
+
+super + {n,p}
+	bspc desktop -f {next,prev}
+
+super + shift + {n,p}
+	bspc node -d {next,prev} --follow
 
 # cycle apps in monocle/fullscreen mode
 # ctrl + alt + {_,shift} + Tab
@@ -149,8 +180,8 @@ super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
 # for ergonomic experience
-super + alt + {_,shift + }{1-4}
-	bspc {desktop -f,node -d} '^{5-8}'
+super + alt + {_,shift + }{1-5}
+	bspc {desktop -f,node -d} '^{6-10}'
 
 #
 # preselect
@@ -173,9 +204,10 @@ super + ctrl + shift + 0
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 ## move a floating window
-super + {Left,Down,Up,Right}
+super + ctrl + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+#
 # move/resize
 #
 
@@ -195,6 +227,9 @@ super + alt + b
 super + alt + e
 	bspc node -f -E
 
+super + shift + {equal,minus}
+	$HOME/.config/bspwm/bspwm-ws.sh {--add,--remove}
+
 #
 # Audio and light control
 #
@@ -206,6 +241,16 @@ XF86AudioLowerVolume
 	amixer -q -D pulse sset Master 2%-
 
 XF86AudioMute
+	amixer -q -D pulse sset Master toggle
+
+# The following 3 keymaps are alternatives on my temporary keyboard
+XF86Reload
+	amixer -q -D pulse sset Master 2%+
+
+XF86Search
+	amixer -q -D pulse sset Master 2%-
+
+XF86Favorites
 	amixer -q -D pulse sset Master toggle
 
 XF86AudioMicMute
@@ -233,6 +278,13 @@ super + shift + s
 # Lock screen
 #
 
-ctrl + alt + l
+{ctrl + alt,super} + l
 	$HOME/.config/polybar/common/scripts/lockscreen.sh
+
+#
+# Input
+#
+
+super + z
+	ibus restart
 

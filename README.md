@@ -1,10 +1,13 @@
 # Public Dotfiles
 
-This repo includes dotfiles for my Linux `bspwm` setup, used alongside the Cosmic Desktop Environment. Currently operating and tested on Pop!OS 22.04 LTS (Ubuntu  22.04 based). I have only used Debian based distros so if you're on a non-Debian-based one, forgive me if you're using others. The configs fit my workflow, so feel free to tweak it to fit yours.
+This repo includes dotfiles for my Linux `bspwm` setup, used alongside the Cinnamon Desktop Environment.
+Currently operating and tested on Linux Mint 21.2 (Ubuntu  22.04 based). I have only used Debian based distros
+so if you're on a non-Debian-based one, forgive me if you're using others. The configs fit my workflow, so feel free
+to tweak it to fit yours.
 
 ## Prerequisites
 
-- Shell: zsh, oh-my-zsh, powerlevel10k
+- Shell: zsh, oh-my-zsh, starship
 - Terminal: kitty
 - SCM: git
 - WM: bspwm
@@ -13,7 +16,6 @@ This repo includes dotfiles for my Linux `bspwm` setup, used alongside the Cosmi
 - Menu launcher: rofi
 - Noti-daemon: dunst
 - Text editor: neovim nightly (> 0.10)
-- Vim-plug (or any vim plugin manager of your preference)
 - Terminal multiplexer: tmux (optional)
 - tpm (tmux plugin manager, optional)
 - OS fetch: treefetch (requires Cargo, optional)
@@ -146,24 +148,30 @@ This repo includes dotfiles for my Linux `bspwm` setup, used alongside the Cosmi
 
 My bspwm configs come with some following keymaps:
 
-- `Super + h, j, k, l` moves between windows in a desktop
+- `Super + j, k` moves between windows in a desktop 
+- `Super + arrow keys` also moves between tiled windows in a desktop in their respective directions
 - `Super + Shift + h, j, k, l` switches windows in a desktop
 - `Alt + (Shift) + Tab` cycles through windows in the current desktop in monocle layout
 - `Super + (Shift) + Tab` cycles through active desktops
+- `Super + n, p` cycles through desktops, regardless of monitors
+- `Super + ; (semicolon)` moves to the next monitor 
+- `Super + : (colon)` switches windows to the next monitor 
 - `Super + f` triggers fullscreen mode
 - `Super + t` triggers tiled mode
 - `Super + s` triggers floating mode
 - `Super + m` triggers monocle layout
-- `Super + $number` switches to the $number-th desktop
+- `Super + $number` switches to the $number-th desktop (0 for the 10th desktop)
 - `Super + Shift + $number` moves the focused window to the $number-th desktop
 - `Alt + d` launches Rofi launcher
 - `Super + Shift + q` or `Alt + F4` kills the focused window
+- `Super + l` locks the screen
 - `Super + Shift + e` launches the powermenu
+- `Super + Shift + r` reloads the WM and its configurations
 
 ## Some Nvim notes
 
 - This nvim configuration also works on Windows (at least Windows 11)
-- I have lots of custom keymaps, check them out with `WhichKey`, mostly from `keymaps.lua`
+- I have lots of custom keymaps, check them out with `WhichKey`
 - Plugins are listed in `plugins.lua`
 - Each time you change the colorscheme, it is saved to a cache file for loading in the next times
 - If Nvim is called in a tmux session, its colorscheme will be catppuccin and themes won't be cached. This is because tmux uses catppuccin and currently I don't know how to dynamically change tmux themes.

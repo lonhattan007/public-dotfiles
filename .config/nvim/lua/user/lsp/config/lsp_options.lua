@@ -5,43 +5,42 @@
 local M = {}
 
 M.language_servers = {
-	-- My fav --------------------------
+	-- My fav, usually used -------------------------------
 	-- "efm",
 	-- "pylsp",
-	-- "pyright",
-	-- "gopls",
-	-- "dartls", -- Included in flutter-tools
-	-- Documentation, operation, config
+	-- "lua_ls",
 	-- "jsonls",
 	-- "yamlls",
 	-- "dockerls",
 	-- "docker_compose_language_service",
 	-- "bashls",
-	-- "marksman",
 	-- "texlab",
-	-- "taplo",
-	-- "terraformls",
-	-- Basic front end stuff -----------
 	-- "html",
 	-- "emmet_ls",
 	-- "cssls",
-	-- Advanced front end stuff --------
-	-- "svelte",
-	-- "vuels",
 	-- "tailwindcss",
 	-- "tsserver",
 	-- "denols",
-	-- Android stuff -------------------
+	-- "gopls",
+	-- "dartls", -- Included in flutter-tools, don't touch
+	-- Documentation, operation, config --------------------
+	-- "marksman",
+	-- "taplo",
+	-- "terraformls",
+	-- Front end stuff -------------------------------------
+	-- "svelte",
+	-- "vuels",
+	-- Android stuff ---------------------------------------
 	-- "kotlin_language_server",
 	-- "jdtls",
 	-- "groovyls",
-	-- Back end stuff ------------------
+	-- Back end stuff --------------------------------------
+	-- "pyright", -- python but not as good as pylsp
 	-- "omnisharp", -- dotnet
 	-- "prismals",
 	-- "graphql",
 	-- "sqlls",
-	-- Other stuff ---------------------
-	-- "lua_ls",
+	-- Other stuff ----------------------------------------
 	-- "rust_analyzer",
 	-- "clangd",
 }

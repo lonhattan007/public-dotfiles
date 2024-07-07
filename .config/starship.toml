@@ -1,0 +1,34 @@
+# ~/.config/starship.toml
+format = '$shell$all$character'
+
+right_format = '$cmd_duration'
+
+[git_status]
+# Added a space before the closing bracket
+# Other components have one leading padding space
+format = '([\[$all_status$ahead_behind \]]($style) )'
+style = 'bold purple'
+untracked = '[ ?${count}](blue)'
+modified = '[ !${count}](yellow)'
+# deleted = ' ✘${count} '
+deleted = ' -${count}'
+renamed = '[ ~${count}](yellow)'
+staged = '[ +${count}](green)'
+stashed = '[ *${count}](green)'
+ahead = '[ ⇡${count}](green)'
+diverged = ' ⇕[⇡${ahead_count}](green)[⇣${behind_count}](blue)'
+behind = '[ ⇣${count}](blue)'
+# Might be slow on Windows or WSL
+
+[shell]
+disabled = false
+format = '$indicator '
+bash_indicator = '(white)'
+zsh_indicator = '󰏰(white)'
+fish_indicator = '󰈺(bold yellow)'
+powershell_indicator = '(bold blue)'
+
+[character]
+format = '$symbol '
+vimcmd_symbol = '[](bold green) '
+vimcmd_visual_symbol = '[](bold pink) '

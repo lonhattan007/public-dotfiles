@@ -5,6 +5,9 @@
 return {
 	"l3mon4d3/luasnip",
 	event = "InsertEnter",
+	version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+	-- install jsregexp (optional!).
+	build = "make install_jsregexp",
 	config = function()
 		local ls = require("luasnip")
 
@@ -19,200 +22,75 @@ return {
 
 		ls.setup({
 			update_events = { "TextChanged", "TextChangedI" },
-			region_check_events = { "CursorMoved", "CursorMovedI" },
+			region_check_events = {
+				"CursorMoved",
+				"CursorMovedI",
+			},
 		})
 
 		ls.config.setup({
 			history = false,
 		})
 
-		vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-			callback = function()
-				require("luasnip").unlink_current()
-			end,
-		})
+		-- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+		-- 	pattern = {
+		-- 		"*.jsx",
+		-- 		"*.tsx",
+		-- 		"*.html",
+		-- 		"*.xml",
+		-- 	},
+		-- 	callback = function()
+		-- 		require("luasnip").unlink_current()
+		-- 	end,
+		-- })
 
-		local function node_with_virtual_text(pos, node, text)
-			local nodes
-			if node.type == types.textNode then
-				node.pos = 2
-				nodes = { i(1), node }
+		-- local function node_with_virtual_text(pos, node, text)
+		-- 	local nodes
+		-- 	if node.type == types.textNode then
+		-- 		node.pos = 2
+		-- 		nodes = { i(1), node }
+		-- 	else
+		-- 		node.pos = 1
+		-- 		nodes = { node }
+		-- 	end
+		-- 	return sn(pos, nodes, {
+		-- 		node_ext_opts = {
+		-- 			active = {
+		-- 				-- override highlight here ("GruvboxOrange").
+		-- 				virt_text = { { text, "GruvboxOrange" } },
+		-- 			},
+		-- 		},
+		-- 	})
+		-- end
+		--
+		-- local function nodes_with_virtual_text(nodes, opts)
+		-- 	if opts == nil then
+		-- 		opts = {}
+		-- 	end
+		-- 	local new_nodes = {}
+		-- 	for pos, node in ipairs(nodes) do
+		-- 		if opts.texts[pos] ~= nil then
+		-- 			node = node_with_virtual_text(pos, node, opts.texts[pos])
+		-- 		end
+		-- 		table.insert(new_nodes, node)
+		-- 	end
+		-- 	return new_nodes
+		-- end
+		--
+		-- local function choice_text_node(pos, choices, opts)
+		-- 	choices = nodes_with_virtual_text(choices, opts)
+		-- 	return c(pos, choices, opts)
+		-- end
+
+		for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/user/code_utils/snippets/*.lua", true)) do
+			if string.find(ft_path, "init.lua") then
+				goto continue
+			elseif string.find(ft_path, "utlis.lua") then
+				goto continue
 			else
-				node.pos = 1
-				nodes = { node }
+				loadfile(ft_path)()
 			end
-			return sn(pos, nodes, {
-				node_ext_opts = {
-					active = {
-						-- override highlight here ("GruvboxOrange").
-						virt_text = { { text, "GruvboxOrange" } },
-					},
-				},
-			})
+			::continue::
 		end
-
-		local function nodes_with_virtual_text(nodes, opts)
-			if opts == nil then
-				opts = {}
-			end
-			local new_nodes = {}
-			for pos, node in ipairs(nodes) do
-				if opts.texts[pos] ~= nil then
-					node = node_with_virtual_text(pos, node, opts.texts[pos])
-				end
-				table.insert(new_nodes, node)
-			end
-			return new_nodes
-		end
-
-		local function choice_text_node(pos, choices, opts)
-			choices = nodes_with_virtual_text(choices, opts)
-			return c(pos, choices, opts)
-		end
-
-		local ct = choice_text_node
-
-		ls.add_snippets("python", {
-			s(
-				"d",
-				fmt(
-					[[
-		def {func}({args}){ret}:
-			{doc}{body}
-	]],
-					{
-						func = i(1),
-						args = i(2),
-						ret = c(3, {
-							t(""),
-							sn(nil, {
-								t(" -> "),
-								i(1),
-							}),
-						}),
-						doc = isn(4, {
-							ct(1, {
-								t(""),
-								-- NOTE we need to surround the `fmt` with `sn` to make this work
-								sn(
-									1,
-									fmt(
-										[[
-			"""{desc}"""
-
-			]],
-										{ desc = i(1) }
-									)
-								),
-								sn(
-									2,
-									fmt(
-										[[
-			"""{desc}
-
-			Args:
-			{args}
-
-			Returns:
-			{returns}
-			"""
-
-			]],
-										{
-											desc = i(1),
-											args = i(2), -- TODO should read from the args in the function
-											returns = i(3),
-										}
-									)
-								),
-							}, {
-								texts = {
-									"(no docstring)",
-									"(single line docstring)",
-									"(full docstring)",
-								},
-							}),
-						}, "$PARENT_INDENT\t"),
-						body = i(0),
-					}
-				)
-			),
-			s(
-				"ad",
-				fmt(
-					[[
-		async def {func}({args}){ret}:
-			{doc}{body}
-	]],
-					{
-						func = i(1),
-						args = i(2),
-						ret = c(3, {
-							t(""),
-							sn(nil, {
-								t(" -> "),
-								i(1),
-							}),
-						}),
-						doc = isn(4, {
-							ct(1, {
-								t(""),
-								-- NOTE we need to surround the `fmt` with `sn` to make this work
-								sn(
-									1,
-									fmt(
-										[[
-			"""{desc}"""
-
-			]],
-										{ desc = i(1) }
-									)
-								),
-								sn(
-									2,
-									fmt(
-										[[
-			"""{desc}
-
-			Args:
-			{args}
-
-			Returns:
-			{returns}
-			"""
-
-			]],
-										{
-											desc = i(1),
-											args = i(2), -- TODO should read from the args in the function
-											returns = i(3),
-										}
-									)
-								),
-							}, {
-								texts = {
-									"(no docstring)",
-									"(single line docstring)",
-									"(full docstring)",
-								},
-							}),
-						}, "$PARENT_INDENT\t"),
-						body = i(0),
-					}
-				)
-			),
-			s(
-				"main",
-				fmt(
-					[[
-				if __name__ == "__main__":
-					{body}
-	]],
-					{
-						body = i(0),
-					}
-				)
-			),
-		})
 	end,
 }

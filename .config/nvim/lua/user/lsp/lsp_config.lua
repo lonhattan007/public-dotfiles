@@ -1,4 +1,4 @@
------------------------------------------------------------------------
+----------------------------------------------------------------------l-
 -- NeoVim config module for LSP configs
 -----------------------------------------------------------------------
 
@@ -126,6 +126,7 @@ return {
 						"vue",
 						"svelte",
 						"markdown",
+						"xml",
 					},
 				})
 			end,
@@ -150,7 +151,7 @@ return {
 				lspconfig["tailwindcss"].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
-					root_dir = root_pattern("tailwind.config.js"),
+					root_dir = root_pattern("tailwind.config.js", "tailwind.config.ts"),
 					completion = {
 						callSnippet = "Replace",
 					},
@@ -183,6 +184,26 @@ return {
 					root_dir = root_pattern("package.json", "tsconfig.json"),
 					completion = {
 						callSnippet = "Replace",
+					},
+					init_options = {
+						plugins = {
+							{
+								name = "@vue/typescript-plugin",
+								-- location = "~/.nvm/versions/node/v18.20.2/lib/node_modules/@vue/typescript-plugin",
+								-- For a dynamic setup, I would install the plugin as a dev-dependency with projects.
+								-- In that case, this `location` option must still be set, but can be any value
+								-- I choose `true` cause it just makes sense
+								location = true,
+								languages = { "javascript", "typescript", "vue" },
+							},
+						},
+					},
+					filetypes = {
+						"javascript",
+						"typescript",
+						"javascriptreact",
+						"typescriptreact",
+						"vue",
 					},
 				})
 			end,

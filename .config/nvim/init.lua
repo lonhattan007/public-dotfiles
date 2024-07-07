@@ -21,11 +21,15 @@
 =====================================================================
 --]]
 
--- General settings
-require("user.base")
+if vim.g.vscode then
+    require("user.vscode")
+else
+    -- General settings
+    require("user.base")
 
--- Plugins installation
-require("user.plugins")
+    -- Plugins installation
+    require("user.plugins")
 
--- Colorscheme and syntax highlighting
-require("user.colorscheme")
+    -- Colorscheme and syntax highlighting
+    require("user.colorscheme")
+end

@@ -4,25 +4,14 @@
 # bspwm settings
 #
 
-INTERNAL_MONITOR="eDP-1"
-# External monitor can be either HDMI, DP-1, DP-2, or empty
-EXTERNAL_MONITOR=$(xrandr -q | grep -w "connected" | sed -n 2p | cut -d' ' -f1)
-
-SCREEN_0_SIZE="1920x1080"
+CONF_DIR="$HOME/.config/bspwm"
 
 # Set screens resolutions
-# xrandr --output eDP-1 --mode 1600x900;
+SCREEN_0_SIZE="1920x1080"
 xrandr --output eDP-1 --mode $SCREEN_0_SIZE;
-#xrandr --output HDMI-1 --mode 1920x1080;
 
-# The external monitor's desktops must be declared before the internal monitor
-# in case of it being empty, the bspc command will assume it to be the only monitor left.
-# We can the redeclare the desktops in the internal monitor.
-bspc monitor $EXTERNAL_MONITOR -d d6 d7 d8 d9 d10
-bspc monitor $INTERNAL_MONITOR -d d1 d2 d3 d4 d5
-# bspc monitor eDP-1 -d 1 2 3 4
-# bspc monitor HDMI-1 -d 5 6 7 8
-# bspc monitor DP-1 -d 9 10
+# Initiate desktops
+$CONF_DIR/bspwm-ws.sh --init
 
 bspc config border_width			3
 bspc config normal_border_color		"#303446"
@@ -35,6 +24,8 @@ bspc config gapless_monocle			false
 bspc config single_monocle			true
 
 bspc config click_to_focus			true
+bspc config pointer_follows_monitor	true
+bspc config focus_follows_pointer	false
 
 # bspc config presel_feedback			false
 
@@ -48,6 +39,7 @@ bspc config click_to_focus			true
 # bspc rule -a Spotify desktop='^5'
 # bspc rule -a Lutris desktop='^6'
 
+bspc rule -a Arandr:*:* state=floating rectangle=720x540+600+270
 bspc rule -a Nemo state=floating
 bspc rule -a Thunar state=floating
 bspc rule -a File-roller state=floating
@@ -59,7 +51,8 @@ bspc rule -a Gnome-disks state=floating
 bspc rule -a Baobab state=floating
 bspc rule -a Cinnamon-settings.py state=floating
 bspc rule -a "cinnamon-settings network" state=floating
-# bspc rule -a Xfce4-settings-manager state=floating
+bspc rule -a "MintSources.py" state=floating
+bspc rule -a Xfce4-settings-manager state=floating
 bspc rule -a Xfce4-power-manager-settings state=floating
 bspc rule -a Gnome-tweaks state=floating
 bspc rule -a Lxappearance state=floating
@@ -72,10 +65,10 @@ bspc rule -a Protonvpn state=floating
 bspc rule -a Protonvpn-app state=floating
 bspc rule -a Blueberry.py state=floating
 bspc rule -a Blueman-manager state=floating
-bspc rule -a Gnome-terminal state=floating
 bspc rule -a Gnome-font-viewer state=floating
 bspc rule -a Gnome-calendar state=floating
 bspc rule -a Gnome-calculator state=floating
+bspc rule -a Gnome-terminal state=floating
 bspc rule -a Grub-customizer state=floating
 bspc rule -a Cheese state=floating
 bspc rule -a Zathura state=tiled
@@ -83,8 +76,12 @@ bspc rule -a AppFlowy state=tiled
 bspc rule -a kdeconnect.app state=floating
 bspc rule -a Tlmgr state=floating
 bspc rule -a miktex-console state=floating
+bspc rule -a zoom state=floating
+bspc rule -a "*:vn.hoabinh.quan.CoBang:*" state=floating
+bspc rule -a Alacritty state=floating
+bspc rule -a Nmtui state=floating
 
-bspc config external_rules_command $HOME/.config/bspwm/external_rules
+bspc config external_rules_command $CONF_DIR/external_rules
 
 # Java apps
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -97,14 +94,14 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 # /usr/libexec/polkit-gnome-authentication-agent-1 &
 # lxpolkit &
-# gnome-keyring-daemon -r -d &
+gnome-keyring-daemon -r -d
 /usr/bin/gnome-keyring-daemon --start --daemonize --components ssh,secrets,pkcs11 &
 # eval $(ssh-agent -s)
 
 # picom --legacy-backends &
 picom &
 # --transparent-clipping --experimental-backends &
-$HOME/.config/bspwm/cleanfullscreen &
+$CONF_DIR/cleanfullscreen &
 
 # Start input method for Vietnamese typing
 ibus-daemon -rd &
@@ -118,7 +115,7 @@ ibus restart;
 nm-applet &
 
 # bspwm-specific start up apps
-sxhkd -c $HOME/.config/bspwm/bsp-sxhkdrc &
+sxhkd -c $CONF_DIR/sxhkdrc &
 feh --bg-scale $HOME/OSsetup/Backgrounds/Wallpapers/pistachio-parazeeknova-wall.png &
 $HOME/.config/polybar/launch.sh --catppuccin &
 
@@ -131,7 +128,9 @@ $HOME/.config/polybar/launch.sh --catppuccin &
 #
 # xset dpms 600 &
 # xss-lock -- i3lock -n -i $HOME/OSsetup/Backgrounds/Lockscreens/lockscreen_1.png &
-xautolock -time 10 -corners ---- -locker "i3lock -i $HOME/OSsetup/Backgrounds/Lockscreens/lockscreen_6_$SCREEN_0_SIZE.png" -killtime 10 -killer "systemctl suspend" &
+xautolock -time 10 -corners ---- -locker "i3lock -t -i $HOME/OSsetup/Backgrounds/Lockscreens/lockscreen_6_$SCREEN_0_SIZE.png; ibus restart" -detectsleep -killtime 10 -killer "systemctl suspend" &
+# Keep the screen unlocked in full screen mode
+caffeine &
 
 #
 # Cursor
@@ -155,7 +154,5 @@ xsetroot -cursor_name left_ptr
 # Create a udev rule to trigger the service above, create the file named 99-reload-monitor.rules under /etc/udev/rules.d
 #
 # ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/su nhattan --command=systemctl --user start bspwm-reload.service''"
-
-
 
 

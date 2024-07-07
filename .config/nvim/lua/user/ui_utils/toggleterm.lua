@@ -2,6 +2,8 @@
 -- NeoVim config module for integrated terminal
 -----------------------------------------------------------------------
 
+local path_sep = require("user.utils").path_sep
+
 return {
     "akinsho/toggleterm.nvim",
     opts = {
@@ -11,7 +13,7 @@ return {
         },
         persist_mode = true, -- always in terminal mode when open
         shell = function()
-            if package.config:sub(1, 1) == "\\" then
+            if path_sep == "\\" then
                 return "pwsh.exe -NoLogo"
             else
                 return vim.o.shell

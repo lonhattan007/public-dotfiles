@@ -61,6 +61,12 @@ return {
 			name = "Env",
 		}
 
+		local sh_icon = {
+			icon = "",
+			color = "white",
+			name = "Sh"
+		}
+
 		require("nvim-web-devicons").setup({
 			override = {
 				["cshtml"] = {
@@ -72,6 +78,7 @@ return {
 				[".editorconfig"] = editorconfig_icon,
 				[".eslintignore"] = eslintignore_icon,
 				["env"] = env_icon,
+				["sh"] = sh_icon,
 			},
 			override_by_filename = {
 				["tsconfig.json"] = tsconfig_icon,
@@ -86,6 +93,7 @@ return {
 				[".eslintrc.json"] = eslint_icon,
 				[".eslintrc.yml"] = eslint_icon,
 				[".eslintrc.yaml"] = eslint_icon,
+				["bspwmrc"] = sh_icon,
 			},
 			override_by_extension = {
 				["mmd"] = {
