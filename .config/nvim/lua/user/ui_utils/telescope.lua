@@ -132,6 +132,7 @@ return {
 							["i"] = {
 								["<C-a>"] = fb_actions.create,
 								["<C-c>"] = fb_actions.create,
+								["<C-n>"] = fb_actions.create,
 								["<C-r>"] = fb_actions.rename,
 								["<F2>"] = fb_actions.rename,
 								["<S-Del>"] = fb_actions.remove,
@@ -148,7 +149,9 @@ return {
 					undo = {
 						use_delta = true,
 						side_by_side = false,
-						diff_context_lines = vim.o.scrolloff,
+						vim_diff_opts = {
+							ctxlent = vim.o.scrolloff,
+						},
 						entry_format = "state #$ID, $STAT, $TIME",
 						time_format = "",
 						initial_mode = "normal",

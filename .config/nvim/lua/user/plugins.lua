@@ -46,7 +46,7 @@ require("lazy").setup({
 	{ "google/vim-searchindex", event = "VeryLazy" },
 
 	-- unicode characters helper
-	{ "chrisbra/unicode.vim" },
+	-- { "chrisbra/unicode.vim" },
 
 	-- highlighting for rasi files
 	{ "Fymyte/rasi.vim" },
