@@ -372,20 +372,20 @@ eval "$(starship init bash)"
 #wal -Rnq
 
 # Treefetch
-if [[ $(tput lines) -ge 13 ]] && [[ $(tput cols) -ge 51 ]]; 
-then
-	clear
-
-	random=$(shuf -i 1-3 -n 1)
-	if [ $random -eq 1 ]
-	then
-		treefetch -x
-	elif [ $random -eq 2 ]
-	then
-		treefetch -b
-	else
-		pfetch
-	fi
-fi
+# if [[ $(tput lines) -ge 13 ]] && [[ $(tput cols) -ge 51 ]]; 
+# then
+# 	clear
+#
+# 	random=$(shuf -i 1-3 -n 1)
+# 	if [ $random -eq 1 ]
+# 	then
+# 		treefetch -x
+# 	elif [ $random -eq 2 ]
+# 	then
+# 		treefetch -b
+# 	else
+# 		pfetch
+# 	fi
+# fi
 # clear && treefetch -b
 
