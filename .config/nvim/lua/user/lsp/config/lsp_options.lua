@@ -19,7 +19,7 @@ M.language_servers = {
 	-- "emmet_ls",
 	-- "cssls",
 	-- "tailwindcss",
-	-- "tsserver",
+	-- "ts_ls",
 	-- "denols",
 	-- "gopls",
 	-- "dartls", -- Included in flutter-tools, don't touch
@@ -45,7 +45,7 @@ M.language_servers = {
 	-- "clangd",
 }
 
-local wk = require("which-key")
+local keymap = vim.keymap.set
 
 local lsp_formatting = function(bufnr)
 	vim.lsp.buf.format({
@@ -76,11 +76,11 @@ M.on_attach = function(client, bufnr)
 	if client.name == "denols" then
 		for _, client_ in pairs(active_clients) do
 			-- stop tsserver if denols is already active
-			if client_.name == "tsserver" then
+			if client_.name == "ts_ls" then
 				client_.stop()
 			end
 		end
-	elseif client.name == "tsserver" then
+	elseif client.name == "ts_ls" then
 		for _, client_ in pairs(active_clients) do
 			-- prevent tsserver from starting if denols is already active
 			if client_.name == "denols" then
@@ -91,83 +91,37 @@ M.on_attach = function(client, bufnr)
 
 	-- setting up keymaps used by LSP
 	local builtin = require("telescope.builtin")
-	local bufopts = { mode = "n", noremap = true, silent = true, buffer = bufnr }
-	wk.register({
-		["gd"] = {
-			builtin.lsp_definitions,
-			"[G]o to [D]efinition",
-		},
-		["gi"] = {
-			vim.lsp.buf.implementation,
-			"[G]o to [I]mplementation",
-		},
-		["<leader>si"] = {
-			builtin.lsp_implementations,
-			"[S]earch [I]mplementation",
-		},
-		["gr"] = {
-			vim.lsp.buf.references,
-			"[G]o to [R]eferences",
-		},
-		["<leader>sr"] = {
-			builtin.lsp_references,
-			"[S]earch [R]eferences",
-		},
-		["<leader>ds"] = {
-			builtin.document_symbols,
-			"[D]ocument [S]ymbols",
-		},
-		["<leader>ws"] = {
-			builtin.lsp_dynamic_workspace_symbols,
-			"[W]orkspace dynamic [S]ymbols",
-		},
-		["gs"] = {
-			vim.lsp.buf.signature_help,
-			"[S]ignature help",
-		},
-		["K"] = {
-			vim.lsp.buf.hover,
-			"Hover documentation",
-		},
-		["[d"] = {
-			vim.diagnostic.goto_prev,
-			-- "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<CR>",
-			"Go to previous diagnostic problem",
-		},
-		["]d"] = {
-			vim.diagnostic.goto_next,
-			-- "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>",
-			"Go to next diagnostic problem",
-		},
-	}, bufopts)
+	keymap("n", "gd", builtin.lsp_definitions, { desc = "[G]o to [D]efinition", buffer = bufnr })
+	keymap("n", "gs", ":split<CR>gd", { desc = "[G]o to [D]efinition in [S]plit", buffer = bufnr, silent = true })
+	keymap("n", "gv", ":vsplit<CR>gd", { desc = "[G]o to [D]efinition in [V]split", buffer = bufnr, silent = true })
+	keymap("n", "gi", vim.lsp.buf.implementation, { desc = "[G]o to [I]mplementation", buffer = bufnr })
+	keymap("n", "gy", builtin.lsp_type_definitions, { desc = "[G]o to type definition", buffer = bufnr })
+	-- keymap("n", "<leader>si" , builtin.lsp_implementations,{ desc =  "[S]earch [I]mplementation", buffer = bufnr })
+	keymap("n", "gr", vim.lsp.buf.references, { desc = "[G]o to [R]eferences", buffer = bufnr })
+	-- keymap("n", "<leader>sr", builtin.lsp_references, { desc = "[S]earch [R]eferences", buffer = bufnr })
+	-- keymap("n", "<leader>ds", builtin.document_symbols, { desc = "[D]ocument [S]ymbols", buffer = bufnr })
+	-- keymap("n", "<leader>ws", builtin.lsp_dynamic_workspace_symbols, { desc = "[W]orkspace dynamic [S]ymbols", buffer = bufnr })
+	keymap("n", "gS", vim.lsp.buf.signature_help, { desc = "[S]ignature help", buffer = bufnr })
+	keymap("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation", buffer = bufnr })
+	keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic problem", buffer = bufnr })
+	keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic problem", buffer = bufnr })
 
 	-- code actions
-	wk.register({
-		["<leader>c"] = {
-			name = "Code actions",
-			["a"] = { "<cmd>CodeActionMenu<CR>", "[C]ode [A]ctions" },
-			-- ["a"] = { vim.lsp.buf.code_action, "Code actions" },
-			-- ["m"] = { "<cmd>CodeActionMenu<CR>", "Code actions menu" },
-		},
-		["<A-CR>"] = {
-			"<cmd>CodeActionMenu<CR>",
-			"Code actions",
-		},
-	}, bufopts)
+	keymap("n", "<leader>ca", "<cmd>CodeActionMenu<CR>", { desc = "Code actions", buffer = bufnr })
+	keymap("n", "<A-CR>", "<cmd>CodeActionMenu<CR>", { desc = "Code actions", buffer = bufnr })
 
-	-- renamer
-	wk.register({
-		["<F2>"] = { "<cmd>lua require('renamer').rename()<CR>", "Rename" },
-		["<leader>r"] = {
-			"<cmd>lua require('renamer').rename()<CR>",
-			"[R]ename",
-		},
-	}, {
-		mode = { "n", "v" },
-		silent = true,
-		noremap = true,
-		buffer = bufnr,
-	})
+	-- rename
+	keymap({ "n", "v" }, "<F2>", "<cmd>lua require('renamer').rename()<CR>", { desc = "Rename", buffer = bufnr })
+	keymap({ "n", "v" }, "<leader>r", "<cmd>lua require('renamer').rename()<CR>", { desc = "Rename", buffer = bufnr })
+
+	-- inlay hint
+	if client.server_capabilities.inlayHintProvider and client.supports_method("textDocument/inlayHint") then
+		-- if pcall(vim.lsp.inlay_hint.enable) then
+
+		vim.keymap.set("n", "<leader>h", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+		end, { desc = "Toggle inlay hints" })
+	end
 
 	-- code formatting
 	-- resolve between LSP API version 0.9 and 0.10
@@ -184,9 +138,7 @@ M.on_attach = function(client, bufnr)
 			end,
 		})
 
-		wk.register({
-			["<leader>i"] = { vim.lsp.buf.format, "Reformat code" },
-		}, bufopts)
+		keymap("n", "<leader>i", vim.lsp.buf.format, { desc = "Reformat code" })
 	end
 end
 

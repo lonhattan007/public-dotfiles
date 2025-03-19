@@ -4,13 +4,9 @@
 
 local M = {}
 
-local color_cache_path = vim.fn.stdpath("data")
-    .. package.config:sub(1, 1)
-    .. "colorscheme_cache"
+local color_cache_path = vim.fn.stdpath("data") .. package.config:sub(1, 1) .. "colorscheme_cache"
 
-local tmuxline_cache_path = vim.fn.stdpath("data")
-    .. package.config:sub(1, 1)
-    .. "tmuxline_cache"
+local tmuxline_cache_path = vim.fn.stdpath("data") .. package.config:sub(1, 1) .. "tmuxline_cache"
 
 -- Available options
 --	nightfox	duskfox				carbonfox
@@ -24,31 +20,32 @@ local tmuxline_cache_path = vim.fn.stdpath("data")
 --	tokyonight-moon					tokeyonight-day
 --	onedark		everforest
 --	rose-pine	rose-pine-moon		rose-pine-dawn
+--	night-owl
 local default_colorscheme = "habamax"
 
 M.write_colorscheme = function(colorscheme)
-    vim.fn.writefile({ tostring(colorscheme) }, color_cache_path)
+	vim.fn.writefile({ tostring(colorscheme) }, color_cache_path)
 end
 
 M.load_colorscheme = function()
-    local exists, lines = pcall(vim.fn.readfile, color_cache_path)
-    local colorscheme = default_colorscheme
-    if exists and #lines > 0 and not (vim.trim(lines[1]) == "") then
-        colorscheme = lines[1]
-    end
+	local exists, lines = pcall(vim.fn.readfile, color_cache_path)
+	local colorscheme = default_colorscheme
+	if exists and #lines > 0 and not (vim.trim(lines[1]) == "") then
+		colorscheme = lines[1]
+	end
 
-    vim.cmd("colorscheme " .. colorscheme)
+	vim.cmd("colorscheme " .. colorscheme)
 end
 
 M.update_tmuxline = function(colorscheme)
-    if os.getenv("TMUX") then
-        if string.sub(colorscheme, 1, 10) == "catppuccin" then
-            vim.cmd("Tmuxline jellybeans")
-        else
-            vim.cmd("Tmuxline")
-        end
-        vim.cmd("TmuxlineSnapshot! " .. tmuxline_cache_path)
-    end
+	if os.getenv("TMUX") then
+		if string.sub(colorscheme, 1, 10) == "catppuccin" then
+			vim.cmd("Tmuxline jellybeans")
+		else
+			vim.cmd("Tmuxline")
+		end
+		vim.cmd("TmuxlineSnapshot! " .. tmuxline_cache_path)
+	end
 end
 
 return M

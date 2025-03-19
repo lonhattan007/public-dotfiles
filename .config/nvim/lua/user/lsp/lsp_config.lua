@@ -88,6 +88,7 @@ return {
 								},
 								checkThirdParty = false,
 							},
+							hint = { enable = true },
 						},
 					},
 					completion = {
@@ -177,8 +178,8 @@ return {
 					},
 				})
 			end,
-			["tsserver"] = function()
-				lspconfig["tsserver"].setup({
+			["ts_ls"] = function()
+				lspconfig["ts_ls"].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
 					root_dir = root_pattern("package.json", "tsconfig.json"),
@@ -204,6 +205,30 @@ return {
 						"javascriptreact",
 						"typescriptreact",
 						"vue",
+					},
+					settings = {
+						javascript = {
+							inlayHints = {
+								includeInlayEnumMemberValueHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayVariableTypeHints = true,
+							},
+						},
+						typescript = {
+							inlayHints = {
+								includeInlayEnumMemberValueHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayVariableTypeHints = true,
+							},
+						},
 					},
 				})
 			end,

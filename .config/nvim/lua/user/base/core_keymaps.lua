@@ -42,6 +42,8 @@ keymap("v", "<C-x>", '"+x', { desc = "Cut selected text" })
 -- In normal mode, use "<c-i>" is for Tab and "<s-tab>" for Shift + Tab
 keymap("n", "]b", ":bn<CR>", { desc = "move to next buffer", silent = true })
 keymap("n", "[b", ":bp<CR>", { desc = "move to previous buffer", silent = true })
+keymap("n", "<space>n", ":bn<CR>", { desc = "move to next buffer", silent = true })
+keymap("n", "<space>p", ":bp<CR>", { desc = "move to previous buffer", silent = true })
 keymap("n", "[t", ":tabprevious<CR>", { desc = "move to previous tab", silent = true })
 keymap("n", "]t", ":tabnext<CR>", { desc = "move to next tab", silent = true })
 
@@ -65,7 +67,7 @@ keymap({ "n", "v" }, "q", "<nop>", { noremap = true })
 keymap({ "n", "v" }, "<S-u>", "<cmd>redo<CR>", { desc = "redo" })
 
 -- Toggle relative line numbers
-keymap({ "n", "v", "i" }, "<C-r>", "<cmd>set rnu!<CR>", { desc = "Toggle relative line numbers" })
+keymap({ "n" }, "<space>r", "<cmd>set rnu!<CR>", { desc = "Toggle relative line numbers" })
 
 -- Turn off search highlights
 keymap("n", "<leader>n", "<cmd>:nohl<CR>", { desc = "Turn off search highlight" })
@@ -78,6 +80,7 @@ keymap("n", "<space>h", "<C-w>h<Esc>", { desc = "Focus on left pane" })
 keymap("n", "<space>j", "<C-w>j<Esc>", { desc = "Focus on upper pane" })
 keymap("n", "<space>k", "<C-w>k<Esc>", { desc = "Focus on right pane" })
 keymap("n", "<space>l", "<C-w>l<Esc>", { desc = "Focus on lower pane" })
+keymap("n", "<space>c", "<C-w>c<Esc>", { desc = "Close pane, retain buffer" })
 keymap("n", "<space>q", "<C-w>q<Esc>", { desc = "Close pane" })
 keymap("n", "<space>w", "<cmd>bw<CR>", { desc = "Close buffer" })
 keymap("n", "<space>H", "<C-w>H<Esc>", { desc = "Move pane to the far left" })

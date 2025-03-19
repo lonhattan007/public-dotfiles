@@ -7,7 +7,7 @@ return {
 	config = function()
 		require("bufferline").setup({
 			options = {
-				mode = "buffers", -- "tabs",
+				mode = "tabs", -- "tabs",
 				separator_style = "thin",
 				always_show_bufferline = false,
 				show_close_icon = false,
@@ -38,6 +38,11 @@ return {
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
 			pattern = "*",
 			command = "highlight BufferLineDevIconLuaSelected guibg=NONE",
+		})
+
+		vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
+			pattern = "*",
+			command = "highlight BufferLineDevIconLuaInactive guibg=NONE",
 		})
 	end,
 }

@@ -4,7 +4,6 @@
 
 return {
 	"lervag/vimtex",
-	event = { "BufEnter", "BufNewFile" },
 	ft = { "tex", "vim-plug", "vim", "lua" },
 	config = function()
 		local g = vim.g

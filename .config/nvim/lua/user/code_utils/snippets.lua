@@ -8,17 +8,9 @@ return {
 	version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 	-- install jsregexp (optional!).
 	build = "make install_jsregexp",
+	-- dependencies = { "rafamadriz/friendly-snippets" },
 	config = function()
 		local ls = require("luasnip")
-
-		local s = ls.snippet
-		local i = ls.insert_node
-		local t = ls.text_node
-		local c = ls.choice_node
-		local sn = ls.snippet_node
-		local isn = ls.indent_snippet_node
-		local fmt = require("luasnip.extras.fmt").fmt
-		local types = require("luasnip.util.types")
 
 		ls.setup({
 			update_events = { "TextChanged", "TextChangedI" },
@@ -31,6 +23,21 @@ return {
 		ls.config.setup({
 			history = false,
 		})
+
+		ls.filetype_extend("typescript", { "javascript", "tsdoc" })
+		ls.filetype_extend("javascript", { "jsdoc" })
+		ls.filetype_extend("lua", { "luadoc" })
+		ls.filetype_extend("python", { "pydoc" })
+		ls.filetype_extend("sh", { "shelldoc" })
+
+		-- local s = ls.snippet
+		-- local i = ls.insert_node
+		-- local t = ls.text_node
+		-- local c = ls.choice_node
+		-- local sn = ls.snippet_node
+		-- local isn = ls.indent_snippet_node
+		-- local fmt = require("luasnip.extras.fmt").fmt
+		-- local types = require("luasnip.util.types")
 
 		-- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
 		-- 	pattern = {

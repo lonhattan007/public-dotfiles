@@ -1,4 +1,4 @@
-return {
+local M = {
 	"rose-pine/neovim",
 	name = "rose-pine",
 	lazy = false,
@@ -20,5 +20,13 @@ return {
 			italic = true,
 			transparency = vim.g.transparent_enabled or false,
 		},
+
+		highlight_groups = {
+			NvimTreeNormal = {
+				bg = vim.g.transparent_enabled and "none" or "surface",
+			},
+		},
 	},
 }
+
+return {}

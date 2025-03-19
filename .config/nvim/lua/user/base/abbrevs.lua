@@ -8,7 +8,7 @@ M = {}
 M.command = {
 	-- Vertical help menu
 	["vh"] = "vert help",
-	-- Vim-Plug
+	-- Plugin manager
 	["PI"] = "Lazy install", -- plugin install
 	["PU"] = "Lazy update", -- plugin update
 	["PC"] = "Lazy clear", -- plugin clear
@@ -22,6 +22,8 @@ M.command = {
 	["LR"] = "LspRestart",
 	["LS"] = "LspStop",
 	-- ["NI"] = "NullLsInfo",
+	-- LazyGit
+	["LG"] = "LazyGit",
 	-- Copilot
 	["CE"] = "Copilot enable",
 	["CD"] = "Copilot disable",

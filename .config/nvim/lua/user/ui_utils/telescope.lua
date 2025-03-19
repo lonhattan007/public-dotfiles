@@ -49,9 +49,10 @@ return {
 					prompt_prefix = " ",
 					selection_caret = " ",
 					path_display = { "smart" },
-					initial_mode = "normal",
+					initial_mode = "insert",
 					mappings = {
 						["n"] = {
+							["d"] = false,
 							["q"] = actions.close,
 							["t"] = actions.select_tab,
 							["s"] = actions.toggle_selection,
@@ -77,21 +78,28 @@ return {
 					},
 				},
 				pickers = {
+					buffers = {
+						initial_mode = "insert",
+						mappings = {
+							["n"] = {
+								["<S-Del>"] = actions.delete_buffer,
+							},
+							["i"] = {
+								["<S-Del>"] = actions.delete_buffer,
+							},
+						},
+					},
 					lsp_references = {
-						theme = "dropdown",
 						initial_mode = "normal",
 					},
 					builtin = {
-						initial_mode = "normal",
-					},
-					buffers = {
-						initial_mode = "normal",
+						initial_mode = "insert",
 					},
 					colorscheme = {
 						initial_mode = "insert",
 					},
 					oldfiles = {
-						initial_mode = "normal",
+						initial_mode = "insert",
 					},
 					find_files = {
 						initial_mode = "insert",
@@ -104,6 +112,9 @@ return {
 						initial_mode = "insert",
 					},
 					live_grep = {
+						initial_mode = "insert",
+					},
+					grep_string = {
 						initial_mode = "insert",
 					},
 					current_buffer_fuzzy_find = {
@@ -122,12 +133,14 @@ return {
 						cwd = telescope_buffer_dir(),
 						mappings = {
 							["n"] = {
+								["d"] = false,
 								["a"] = fb_actions.create,
 								["<C-n>"] = fb_actions.create,
 								["t"] = actions.select_tab,
 								["<C-t>"] = actions.select_tab,
 								["<C-c>"] = fb_actions.change_cwd,
 								["<F2>"] = fb_actions.rename,
+								["<S-Del>"] = fb_actions.remove,
 							},
 							["i"] = {
 								["<C-a>"] = fb_actions.create,
@@ -150,7 +163,7 @@ return {
 						use_delta = true,
 						side_by_side = false,
 						vim_diff_opts = {
-							ctxlent = vim.o.scrolloff,
+							ctxlen = vim.o.scrolloff,
 						},
 						entry_format = "state #$ID, $STAT, $TIME",
 						time_format = "",
@@ -171,7 +184,7 @@ return {
 			telescope.load_extension("aerial")
 			telescope.load_extension("undo")
 			telescope.load_extension("projects")
-			telescope.load_extension("flutter")
+			-- telescope.load_extension("flutter")
 
 			-- TODO: Switch between find_files and git_files based on directory
 			-- local function file_finder()
@@ -191,6 +204,34 @@ return {
 			--
 			-- local opts = { noremap = true, silent = true, desc = "File finder" }
 			-- vim.keymap.set("n", "<C-p>", file_finder, opts)
+
+			local keymap = vim.keymap.set
+
+			keymap("n", "<leader>sb", "<cmd>Telescope buffers<CR>", { desc = "[S]earch [B]uffers" })
+			keymap("n", "<leader>sc", "<cmd>Telescope colorscheme<CR>", { desc = "[S]earch [C]olorscheme" })
+			keymap("n", "<leader>sd", "<cmd>Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" })
+			keymap("n", "<leader>sf", "<cmd>Telescope find_files<CR>", { desc = "[S]earch [F]iles" })
+			keymap("n", "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "[S]earch with [G]rep" })
+			-- keymap("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "[S]earch [H]elps" })
+			keymap("n", "<leader>sh", "<cmd>Telescope oldfiles<CR>", { desc = "[S]earch file [H]istory" })
+			keymap("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", { desc = "[S]earch [K]eymaps" })
+			keymap("n", "<leader>so", "<cmd>Telescope aerial<CR>", { desc = "[S]earch [O]utline" })
+			keymap("n", "<leader>sp", "<cmd>Telescope projects<CR>", { desc = "[S]earch [P]rojects" })
+			keymap("n", "<leader>sr", "<cmd>Telescope lsp_references<CR>", { desc = "[S]earch [R]eferences" })
+			keymap("n", "<leader>st", "<cmd>TodoTelescope<CR>", { desc = "[S]earch [T]o[d]os" })
+			keymap("n", "<leader>su", "<cmd>Telescope undo<CR>", { desc = "[S]earch [U]ndos" })
+			keymap("n", "<leader>sw", "<cmd>Telescope grep_string<CR>", { desc = "[S]earch current [W]ord" })
+			keymap(
+				"n",
+				"<leader>sz",
+				"<cmd>Telescope current_buffer_fuzzy_find<CR>",
+				{ desc = "[S]earch with fu[Z]zy" }
+			)
+
+			keymap("n", "<leader>tl", "<cmd>Telescope<CR>", { desc = "[T]e[l]escope builtin picker" })
+			keymap("n", "<leader>tp", "<cmd>Telescope planets<CR>", { desc = "[T]elescope view [P]lanets" })
+			keymap("n", "<leader>b", "<cmd>Telescope file_browser<CR>", { desc = "Telescope file browser" })
+			keymap("n", "<leader>p", "<cmd>Telescope buffers<CR>", { desc = "Telescope find open buffers" })
 		end,
 	},
 }

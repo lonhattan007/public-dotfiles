@@ -49,6 +49,12 @@ return {
 			name = "EslintIgnore",
 		}
 
+		local storybook_icon = {
+			icon = "󰂺",
+			color = "#FF4785",
+			name = "Storybook",
+		}
+
 		local editorconfig_icon = {
 			icon = "",
 			color = "#f5f5f5",
@@ -64,7 +70,31 @@ return {
 		local sh_icon = {
 			icon = "",
 			color = "white",
-			name = "Sh"
+			name = "Sh",
+		}
+
+		local angular_controller_icon = {
+			icon = "",
+			color = "cyan",
+			name = "NgCtrl",
+		}
+
+		local angular_service_icon = {
+			icon = "",
+			color = "yellow",
+			name = "NgSvc",
+		}
+
+		local angular_repo_icon = {
+			icon = "",
+			color = "pink",
+			name = "NgRepo",
+		}
+
+		local angular_dto_icon = {
+			icon = "",
+			color = "coral",
+			name = "NgDto",
 		}
 
 		require("nvim-web-devicons").setup({
@@ -106,6 +136,12 @@ return {
 					color = "#bbbbbb",
 					name = "Toml",
 				},
+				["stories.tsx"] = storybook_icon,
+				["stories.jsx"] = storybook_icon,
+				["controller.ts"] = angular_controller_icon,
+				["service.ts"] = angular_service_icon,
+				["repository.ts"] = angular_repo_icon,
+				["dto.ts"] = angular_dto_icon,
 			},
 		})
 	end,

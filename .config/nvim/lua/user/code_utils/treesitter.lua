@@ -3,6 +3,11 @@
 -----------------------------------------------------------------------
 
 return {
+	-- highlighting for rasi files
+	{
+		"Fymyte/rasi.vim",
+		ft = { "rasi" },
+	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		event = { "BufReadPre", "BufNewFile" },
@@ -81,10 +86,6 @@ return {
 				},
 				indent = {
 					enable = true,
-				},
-				context_commentstring = {
-					enable = true,
-					enable_autocmd = false,
 				},
 				incremental_selection = {
 					enable = true,

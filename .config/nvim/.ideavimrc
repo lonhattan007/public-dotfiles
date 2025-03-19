@@ -5,6 +5,7 @@
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'preservim/nerdtree'
+Plug 'machakann/vim-highlightedyank'
 
 let mapleader = "\\"
 
@@ -18,10 +19,14 @@ set incsearch
 "" Map for turning off search highlights
 " map <leader>n :nohl<CR>
 
+let g:highlightedyank_highlight_duration = "150"
+
 "" Don't use Ex mode, use Q for formatting.
 map Q gq
 
 set rnu
+
+nmap <S-u> :redo<CR>
 
 map <C-d> <C-d>zz
 map <C-u> <C-u>zz
@@ -32,6 +37,8 @@ map <A-k> <C-u>zz
 map <A-l> <C-b>zz
 map <A-h> <C-f>zz
 
+" Map splits
+nnoremap <space>w <Esc>:q<CR>
 map <space>s <C-w>s
 map <space>x <C-w>s
 map <space>v <C-w>v
@@ -43,6 +50,13 @@ map <space>H <C-w>H
 map <space>J <C-w>J
 map <space>K <C-w>K
 map <space>L <C-w>L
+
+nmap ]b gt
+nmap [b gT
+nmap ]t gt
+nmap [t gT
+nmap <space>n gt
+nmap <space>p gT
 
 nmap <Up> :echo 'Use K!'<CR>
 nmap <Down> :echo 'Use J!'<CR>
@@ -63,16 +77,19 @@ map <leader>db <Action>(Debug)
 map <leader>e <Action>(ActivateProjectToolWindow)
 
 "" Map \b to toggle the breakpoint on the current line
-" map \b <Action>(ToggleLineBreakpoint)
+map <leader>b <Action>(SearchEverywhere)
 
 "" Map Ctrl + / to comment
 map <C-/> <Action>(CommentByLineComment)
 imap <C-/> <Action>(CommentByLineComment)
 
 "" Map Goto actions
-map gd <Action>(GotoTypeDeclaration)
+map gd <Action>(GotoDeclaration)
 map gi <Action>(GotoImplementation)
 map gr <Action>(GotoDeclaration)
+map gy <Action>(GotoTypeDeclaration)
+nmap gv <C-w>v<Esc>gd
+nmap gs <C-w>s<Esc>gd
 
 "" Map Code action
 map <leader>ca <Action>(ShowContextActions)
@@ -82,13 +99,9 @@ map <leader>r <Action>(RenameElement)
 imap <Tab> <Action>(SelectNextCompletionOption)
 imap <S-Tab> <Action>(SelectPreviousCompletionOption)
 
-"" Map splits
-nnoremap <space>v :vsplit<CR>
-nnoremap <space>s :split<CR>
-nnoremap <space>h <C-W>h
-nnoremap <space>j <C-W>j
-nnoremap <space>k <C-W>k
-nnoremap <space>l <C-W>l
+map ]d <Action>(GotoNextError)
+map [d <Action>(GotoPreviousError)
+
 
 "" NERDTree
 map <leader>e :NERDTreeToggle<CR>
@@ -101,6 +114,8 @@ sethandler <C-c> n-v:ide i:vim
 
 "" Map <C-v> to handle paste action in insert mode
 sethandler <C-v> n-v:vim i:ide
+
+set ideajoin
 
 "" Map \so to reload .ideavimrc
 map <leader>so :source ~/.ideavimrc<CR>

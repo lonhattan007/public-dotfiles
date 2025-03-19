@@ -19,37 +19,25 @@ M = {
 				dap_ui.open()
 			end
 
-			local wk = require("which-key")
-			wk.register({
-				["d"] = {
-					name = "Debugger",
-					["b"] = {
-						"<cmd>DapToggleBreakpoint<CR>",
-						"Toggle debug breakpoint",
-					},
-					["c"] = { dap_ui.close, "Dap UI close" },
-					["e"] = { dap_ui.eval, "Dap UI eval" },
-					["o"] = { dap_ui.open, "Dap UI open" },
-					["t"] = { dap_ui.toggle, "Dap UI toggle" },
-					["r"] = {
-						"<cmd>lua require('dapui').open({reset = true})<CR>",
-						"Dap UI reset",
-					},
-				},
-			}, {
-				prefix = "<leader>",
-				mode = "n",
-				silent = true,
-				noremap = true,
-			})
-			wk.register({
-				["<F5>"] = { "<cmd>DapContinue<CR>", "Continue debug" },
-			})
+			local keymap = vim.keymap.set
+
+			keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Toggle [D]ebug [B]reakpoint" })
+			keymap("n", "<leader>dc", dap_ui.close, { desc = "[D]ap UI [C]lose" })
+			keymap("n", "<leader>de", dap_ui.eval, { desc = "[D]ap UI [E]val" })
+			keymap("n", "<leader>do", dap_ui.open, { desc = "[D]ap UI [O]pen" })
+			keymap("n", "<leader>dt", dap_ui.toggle, { desc = "[D]ap UI [T]oggle" })
+			keymap(
+				"n",
+				"<leader>dr",
+				"<cmd>lua require('dapui').open({reset = true})<CR>",
+				{ desc = "[D]ap UI [R]eset" }
+			)
+			keymap("n", "<F5>", "<cmd>DapContinue<CR>", { desc = "Continue debug" })
 		end,
 	},
 	{
 		"rcarriga/nvim-dap-ui",
-		dependencies = { "mfussenegger/nvim-dap" },
+		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 		opts = {
 			layouts = {
 				{
@@ -92,6 +80,14 @@ M = {
 			})
 		end,
 	},
+	{
+		"mxsdev/nvim-dap-vscode-js",
+		opts = {
+			adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+			debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+			debugger_cmd = { "js-debug-adapter" },
+		},
+	},
 }
 
-return {}
+return M

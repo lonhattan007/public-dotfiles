@@ -23,7 +23,9 @@ return {
 
 		local lspkind = require("lspkind")
 
-		require("luasnip/loaders/from_vscode").lazy_load()
+		require("luasnip.loaders.from_vscode").lazy_load({
+			exclude = { "global" },
+		})
 
 		-- Complete options
 		vim.opt.completeopt = "menu,menuone,noinsert,noselect"
@@ -82,6 +84,10 @@ return {
 					i = cmp.mapping.abort(),
 					c = cmp.mapping.close(),
 				}),
+				-- ["<Esc>"] = cmp.mapping({
+				-- 	i = cmp.mapping.abort(),
+				-- 	c = cmp.mapping.close(),
+				-- }),
 				-- Accept currently selected item. If none selected, `select` first item.
 				-- Set `select` to `false` to only confirm explicitly selected items.
 				-- ["<Tab>"] = cmp.mapping.confirm({ select = true }),
@@ -163,7 +169,7 @@ return {
 				{ name = "buffer" },
 			},
 		})
-		
+
 		-- Add parentheses after selecting function or method item
 		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())

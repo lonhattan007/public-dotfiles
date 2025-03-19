@@ -11,7 +11,7 @@ local M = {
 local home_path = require("user.utils").home_path
 local concat_paths = require("user.utils").concat_paths
 
-local dev_notes_vault_path = concat_paths({home_path, "ObsidianVaults", "DevNotes"})
+local dev_notes_vault_path = concat_paths({ home_path, "ObsidianVaults", "DevNotes" })
 local dev_notes_vault = {
 	name = "DevNotes",
 	path = dev_notes_vault_path,
@@ -56,6 +56,32 @@ local obsidian_config = function(workspaces)
 			enable = false,
 		},
 	})
+
+	local keymap = vim.keymap.set
+
+	keymap("n", "<leader>ob", "<cmd>ObsidianQuickSwitch<CR>", { desc = "[O]bsidian [B]rowse and switch notes" })
+	keymap("n", "<leader>of", "<cmd>ObsidianFollowLink<CR>", { desc = "[O]bsidian [F]ollow link" })
+	keymap("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "[O]bsidian create [N]ew note" })
+	keymap("n", "<leader>oo", "<cmd>ObsidianOpen<CR>", { desc = "[O]pen in [O]bsidian" })
+	keymap("n", "<leader>or", "<cmd>ObsidianRename<CR>", { desc = "[O]bsidian create [N]ew note" })
+	keymap("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "[O]bsidian [S]earch" })
+	keymap("n", "<leader>ot", "<cmd>ObsidianTemplate<CR>", { desc = "[O]bsidian insert [T]emplate" })
+	keymap("n", "<leader>ow", "<cmd>ObsidianWorkspace<CR>", { desc = "[O]bsidian [W]orkspace info" })
+
+	keymap(
+		"v",
+		"<leader>oc",
+		":'<,'>ObsidianLinkNew<CR>",
+		{ desc = "[O]bsidian [C]reate new note linked to selection" }
+	)
+	keymap("v", "<leader>ol", ":'<,'>ObsidianLink<CR>", { desc = "[O]bsidian create [L]ink from selection" })
+
+	keymap(
+		"n",
+		"<leader>ch",
+		"<cmd>lua require('obsidian').util.toggle_checkbox()<CR>",
+		{ desc = "Toggle markdown checkbox" }
+	)
 end
 
 if count > 0 then
@@ -64,4 +90,4 @@ if count > 0 then
 	end
 end
 
-return M
+return {}

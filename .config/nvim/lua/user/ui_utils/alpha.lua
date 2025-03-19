@@ -5,16 +5,7 @@
 return {
     "goolord/alpha-nvim",
     config = function()
-        local config_dir = ""
-        local path_sep = package.config:sub(1, 1)
-
-        if path_sep == "/" then
-            -- unix path separator
-            config_dir = "~/.config/nvim"
-        elseif path_sep == "\\" then
-            -- windows path separator
-            config_dir = "~\\AppData\\Local\\nvim"
-        end
+        local config_dir = vim.fn.stdpath('config')
 
         local dashboard = require("alpha.themes.dashboard")
 
