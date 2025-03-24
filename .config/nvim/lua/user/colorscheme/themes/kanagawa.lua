@@ -16,7 +16,7 @@ return {
 		variablebuiltinStyle = { italic = true },
 		specialReturn = true, -- special highlight for the return keyword
 		specialException = true, -- special highlight for exception handling keywords
-		transparent = vim.g.transparent_enabled or false,
+		transparent = false, -- vim.g.transparent_enabled or false,
 		dimInactive = false, -- dim inactive window `:h hl-NormalNC`
 		globalStatus = false, -- adjust window separators highlight for laststatus=3
 		terminalColors = true, -- define vim.g.terminal_color_{0,17}

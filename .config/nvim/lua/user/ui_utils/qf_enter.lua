@@ -5,11 +5,10 @@
 return {
 	"yssl/QFEnter",
 	config = function()
-		vim.cmd([[
-            let g:qfenter_keymap = {}
-            let g:qfenter_keymap.vopen = ['<C-v>']
-            let g:qfenter_keymap.hopen = ['<C-CR>', '<C-s>', '<C-x>']
-            let g:qfenter_keymap.topen = ['<C-t>']
-        ]])
+		vim.g.qfenter_keymap = {
+			vopen = { "<C-v>" },
+			hopen = { "<C-CR>", "<C-s>", "<C-x>" },
+			topen = { "<C-t>" },
+		}
 	end,
 }

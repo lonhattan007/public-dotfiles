@@ -102,6 +102,11 @@ Formatters and linters requires manual configurations.
 
 - Tabwidth... - TBA
 
+## Todo
+
+- [ ] Update Dap and Dap UI
+- [ ] Adopt `none-ls`
+
 ## Thanks-to
 
 - [LunarVim's](https://www.lunarvim.org/) [Neovim-from-scratch](https://github.com/LunarVim/Neovim-from-scratch) - template for my config structure.
