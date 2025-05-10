@@ -45,6 +45,7 @@ return {
 		local on_attach = lsp_options.on_attach
 		local capabilities = lsp_options.capabilities
 		local efm_options = require("user.lsp.config.efm").options
+		local util = lspconfig.util
 		local root_pattern = lspconfig.util.root_pattern
 
 		-- Package management
@@ -182,7 +183,10 @@ return {
 				lspconfig["ts_ls"].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
-					root_dir = root_pattern("package.json", "tsconfig.json"),
+					root_dir = function(fname)
+						return root_pattern("package.json", "tsconfig.json")(fname) or util.path.dirname(fname)
+					end,
+					single_file_support = true,
 					completion = {
 						callSnippet = "Replace",
 					},

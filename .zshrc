@@ -1,15 +1,5 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -37,8 +27,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=30
-
+# export UPDATE_ZSH_DAYS=30
+#
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
 
@@ -73,18 +63,17 @@ export UPDATE_ZSH_DAYS=30
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-	# git
-	web-search
-	zsh-autosuggestions
-)
+# Created by Zap installer
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "zsh-users/zsh-autosuggestions"
+plug "zap-zsh/supercharge"
+plug "zap-zsh/zap-prompt"
+plug "zsh-users/zsh-syntax-highlighting"
 
-source $ZSH/oh-my-zsh.sh
+# Load and initialise completion system
+autoload -Uz compinit
+compinit
+
 
 # User configuration
 
@@ -104,8 +93,11 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 #
 # Keybindings
-# Using vi mode
+# Use -v for vi mode, -e for emacs mode
 bindkey -v
+
+# Using emacs mode
+# bindkey -e
 
 # ctrl+backspace to delete a word
 bindkey "^H" backward-delete-word
@@ -114,16 +106,6 @@ bindkey "^H" backward-delete-word
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Zsh auto-suggestion
-#source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Import colorscheme from 'wal' asynchronously
 # &   # Run the process in the background.
@@ -131,9 +113,21 @@ bindkey "^H" backward-delete-word
 # Not supported in the "fish" shell.
 #(cat ~/.cache/wal/sequences &)
 
-# Set default editor
-export VISUAL=nvim
-export EDITOR=nvim
+# Editor ---------------------------------------------------------------------
+
+VIM=""
+export PATH="/opt/nvim-linux64/bin:/opt/nvim-linux-x86_64/bin:$PATH"
+if [[ $(which nvim) == "nvim not found" ]];
+then
+	VIM=vim
+else
+	VIM=nvim
+fi
+
+alias vim=$VIM
+
+export VISUAL=$VIM
+export EDITOR=$VIM
 
 
 # Zoxide ---------------------------------------------------------------------
@@ -194,6 +188,17 @@ chpwd_functions=(${chpwd_functions[@]} "_zoxide_hook")
 # fi
 
 
+# GPG ------------------------------------------------------------------------
+export GPG_TTY=$(tty)
+
+
+# Some more ls aliases -------------------------------------------------------
+alias ls='ls --color'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -C'
+
+
 # Git ------------------------------------------------------------------------
 alias g="git"
 
@@ -211,6 +216,30 @@ export NVM_DIR="$HOME/.nvm"
 # This loads nvm bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export PATH="$PATH:$HOME/.nvm/versions/node/**/bin"
+
+# Auto load proper node version when there's a `.nvmrc`
+autoload -U add-zsh-hook
+load-nvmrc() {
+  [[ -a .nvmrc ]] || return
+
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
 
 
 # Deno -----------------------------------------------------------------------
@@ -271,19 +300,17 @@ export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$HOME/.local/bin/swift/bin:$PATH"
 
 
+# Rancher
+export PATH="$PATH:$HOME/.rd/bin"
+
+# K8s
+alias k8s=kubectl
+
+
 # Texlive
 # export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
 # MikTex
 export PATH="$HOME/bin:$PATH"
-
-
-# ANTLR4 ---------------------------------------------------------------------
-# export ANTLR_JAR="$HOME/.local/lib/antlr-4.9.2-complete.jar"
-# alias antlr4='java -Xmx500M -cp "$HOME/.local/lib/antlr-4.9.2-complete.jar:$ANTLR_JAR" org.antlr.v4.Tool'
-# alias grun='java -Xmx500M -cp "$HOME/.local/lib/antlr-4.9.2-complete.jar:$ANTLR_JAR" org.antlr.v4.gui.TestRig'
-# export CLASSPATH=".:$HOME/.local/lib/antlr-4.9.2-complete.jar":$CLASSPATH
-# alias antlr4='java -jar /usr/local/lib/antlr-4.9.2-complete.jar'
-# alias grun='java org.antlr.v4.gui.TestRig'
 
 
 # Spicetify ------------------------------------------------------------------
@@ -295,10 +322,6 @@ export PATH="$PATH:$HOME/.spicetify"
 
 # Web search from zsh
 alias gg=google
-
-# nvim
-export PATH="$PATH:/opt/nvim-linux64/bin"
-alias vim='nvim'
 
 # Polybar launcher
 alias polybar-launch="$HOME/.config/polybar/launch.sh"
@@ -333,6 +356,9 @@ alias timeshift-gtk='pkexec timeshift-gtk'
 # lazygit
 alias lg='lazygit'
 
+# lazydocker
+alias ld='lazydocker'
+
 # pfetch
 # Enable color in output: 0/1
 export PF_COLOR=1
@@ -351,13 +377,17 @@ export PF_ASCII="Catppuccin"
 # Ranger highlight
 export HIGHLIGHT_STYLE=clarity
 
+# Other binaries
+export PATH="$HOME/.local/bin:$PATH"
+
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || eval "$(fzf --zsh)"
 # For newest versions
-# eval "$(fzf --bash)"
+# eval "$(fzf --zsh)"
+FZF_KEYBINDINGS="tab:down,btab:up,alt-j:toggle+down,alt-k:toggle+up,alt-down:toggle+down,alt-up:toggle+up,"
+FZF_KEYBINDINGS="${FZF_KEYBINDINGS}ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up"
 [ -f ~/.fzf.git.sh ] && source ~/.fzf.git.sh
-export FZF_DEFAULT_OPTS="--bind=tab:down,btab:up,alt-j:toggle+down,alt-k:toggle+up"
-
+export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}' --bind=${FZF_KEYBINDINGS}"
 
 
 # SDKMan ---------------------------------------------------------------------
@@ -370,6 +400,20 @@ export SDKMAN_DIR="$HOME/.sdkman"
 eval "$(starship init zsh)"
 
 
+# Clipboard ------------------------------------------------------------------
+# pc for pasteboard copy
+# pp for pasteboard paste
+if [[ "$(uname)" == "Linux" ]];
+then
+    alias pc="xclip -selection c"
+    alias pp="xclip -selection c -o"
+elif [[ "$(uname)" == "Darwin" ]];
+then
+    alias pc="pbcopy"
+    alias pp="pbpaste"
+fi
+
+
 # ZSH startup ----------------------------------------------------------------
 
 # Pywal
@@ -379,19 +423,16 @@ eval "$(starship init zsh)"
 # Treefetch
 # if [[ $(tput lines) -ge 21 && $(tput cols) -ge 51 ]];
 # then
-# 	clear
-#
-# 	random=$(shuf -i 1-3 -n 1)
-# 	if [ $random -eq 1 ]
-# 	then
-# 		treefetch -x
-# 	elif [ $random -eq 2 ]
-# 	then
-# 		treefetch -b
-# 	else
-# 		pfetch
-# 	fi
-# fi
+clear
 
-# clear && treefetch -b
+# random=$(shuf -i 1-3 -n 1)
+# if [ $random -eq 1 ]
+# then
+# 	treefetch -x
+# elif [ $random -eq 2 ]
+# then
+# 	treefetch -b
+# else
+# 	pfetch
+# fi
 

@@ -1,4 +1,8 @@
 # ~/.config/starship.toml
+"$schema" = 'https://starship.rs/config-schema.json'
+
+command_timeout = 1500
+
 format = '$shell$all$character'
 
 right_format = '$cmd_duration'
@@ -22,11 +26,12 @@ behind = '[ ⇣${count}](blue)'
 
 [shell]
 disabled = false
-format = '$indicator '
-bash_indicator = '(white)'
-zsh_indicator = '󰏰(white)'
-fish_indicator = '󰈺(bold yellow)'
-powershell_indicator = '(bold blue)'
+format = '$indicator'
+bash_indicator = '[ ](white)'
+# zsh_indicator = '󰉁(bold yellow)'
+zsh_indicator = '[⚡](bold yellow)'
+fish_indicator = '[󰈺 ](bold orange)'
+powershell_indicator = '[ ](bold blue)'
 
 [character]
 format = '$symbol '

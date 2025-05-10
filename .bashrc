@@ -89,9 +89,10 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
+alias ls='ls --color'
 alias ll='ls -alF'
 alias la='ls -A'
-alias l='ls -CF'
+alias l='ls -C'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -192,6 +193,10 @@ esac
 # source $HOME/.keychain/$HOST-sh
 
 
+# GPG ------------------------------------------------------------------------
+export GPG_TTY=$(tty)
+
+
 # Git ------------------------------------------------------------------------
 alias g="git"
 
@@ -208,6 +213,19 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 export PATH="$PATH:$HOME/.nvm/versions/node/**/bin"
 
+# loads proper node version
+_nvmrc_hook() {
+  if [[ $PWD == $PREV_PWD ]]; then
+    return
+  fi
+  
+  PREV_PWD=$PWD
+  [[ -f ".nvmrc" ]] && nvm use
+}
+
+if ! [[ "${PROMPT_COMMAND:-}" =~ _nvmrc_hook ]]; then
+  PROMPT_COMMAND="_nvmrc_hook${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
 
 # Deno -----------------------------------------------------------------------
 export DENO_INSTALL="/home/nhattan/.deno"
@@ -266,19 +284,14 @@ export PATH="$PATH:$HOME/.cargo/bin"
 # export PATH="$HOME/.local/bin/swift/bin:$PATH"
 
 
+# Rancher
+export PATH="$PATH:$HOME/.rd/bin"
+
+
 # Texlive --------------------------------------------------------------------
 # export PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
 # MikTex
 export PATH="$HOME/bin:$PATH"
-
-
-# ANTLR4 ---------------------------------------------------------------------
-# export ANTLR_JAR="$HOME/.local/lib/antlr-4.9.2-complete.jar"
-# alias antlr4='java -Xmx500M -cp "$HOME/.local/lib/antlr-4.9.2-complete.jar:$ANTLR_JAR" org.antlr.v4.Tool'
-# alias grun='java -Xmx500M -cp "$HOME/.local/lib/antlr-4.9.2-complete.jar:$ANTLR_JAR" org.antlr.v4.gui.TestRig'
-# export CLASSPATH=".:$HOME/.local/lib/antlr-4.9.2-complete.jar":$CLASSPATH
-# alias antlr4='java -jar /usr/local/lib/antlr-4.9.2-complete.jar'
-# alias grun='java org.antlr.v4.gui.TestRig'
 
 
 # Spicetify ------------------------------------------------------------------
@@ -292,8 +305,16 @@ export PATH="$PATH:$HOME/.spicetify"
 alias gg=google
 
 # nvim
-export PATH="$PATH:/opt/nvim-linux64/bin"
-alias vim='nvim'
+VIM=""
+export PATH="/opt/nvim-linux64/bin:/opt/nvim-linux-x86_64/bin:$PATH"
+if [[ $(which nvim) == "nvim not found" ]];
+then
+	VIM=vim
+else
+	VIM=nvim
+fi
+
+alias vim=$VIM
 
 # Polybar launcher
 alias polybar-launch="$HOME/.config/polybar/launch.sh"
@@ -365,6 +386,20 @@ export SDKMAN_DIR="$HOME/.sdkman"
 eval "$(starship init bash)"
 
 
+# Clipboard ------------------------------------------------------------------
+# pc for pasteboard copy
+# pp for pasteboard paste
+if [[ "$(uname)" == "Linux" ]];
+then
+    alias pc="xclip -selection c"
+    alias pp="xclip -selection c -o"
+elif [[ "$(uname)" == "Darwin" ]];
+then
+    alias pc="pbcopy"
+    alias pp="pbpaste"
+fi
+
+
 # Bash startup ----------------------------------------------------------------
 
 # Pywal
@@ -387,5 +422,5 @@ eval "$(starship init bash)"
 # 		pfetch
 # 	fi
 # fi
-# clear && treefetch -b
 
+clear

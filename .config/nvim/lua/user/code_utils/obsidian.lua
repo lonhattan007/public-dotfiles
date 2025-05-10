@@ -2,6 +2,7 @@
 -- NeoVim config module for markdown preview
 -----------------------------------------------------------------------
 
+local obsidian_enabled = require("user.base.opts").obsidian.enabled
 local M = {
 	"epwalsh/obsidian.nvim",
 	dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
@@ -90,4 +91,4 @@ if count > 0 then
 	end
 end
 
-return {}
+return obsidian_enabled and M or {}
