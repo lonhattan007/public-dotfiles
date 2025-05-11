@@ -1,4 +1,4 @@
-----------------------------------------------------------------------l-
+-----------------------------------------------------------------------
 -- NeoVim config module for LSP configs
 -----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ return {
         require("lspconfig.ui.windows").default_options.border = "single"
 
         local nvim_version = vim.version()
-        if (nvim_version.major == 0 and nvim_version.minor <= 11) then
+        if (nvim_version.major == 0 and nvim_version.minor <= 10) then
             -- Handler configs
             -- deprecated in 0.11
             -- configured directly in vim.diagnostic.config
