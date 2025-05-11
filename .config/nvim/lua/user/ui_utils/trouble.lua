@@ -2,7 +2,7 @@
 -- NeoVim config module for problems listing
 -----------------------------------------------------------------------
 
-return {
+M = {
 	"folke/trouble.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
@@ -57,3 +57,5 @@ return {
 		vim.keymap.set("n", "<leader>m", "<cmd>TroubleToggle<CR>", { desc = "Toggle problems list" })
 	end,
 }
+
+return {}

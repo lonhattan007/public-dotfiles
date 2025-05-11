@@ -2,9 +2,12 @@
 -- NeoVim config module for project folder manager
 -----------------------------------------------------------------------
 
-return {
+local project_enabled = require("user.base.opts").project.enabled
+
+local M = {
 	-- "ahmedkhalf/project.nvim",
 	"lonhattan007/project.nvim",
+    branch = "chore/fix-deprecated-api",
 	priority = 100,
 	dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 	config = function()
@@ -40,5 +43,9 @@ return {
 			use_git_files = true,
 			datapath = vim.fn.stdpath("data"),
 		})
+
+        require("telescope").load_extension("projects")
 	end,
 }
+
+return project_enabled and M or {}
